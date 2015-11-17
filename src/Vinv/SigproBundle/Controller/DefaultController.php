@@ -12,11 +12,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/home/{name}")
+     * @Route("/home/", name="home")
      * @Template()
      */
-    public function indexAction($name) {
-        return array('name' => $name);
+    public function indexAction() {
+        $session  = $this->get('session');
+        $user = $session->get('user');
+        return array('name' => $user["Nombre"]);
     }
 
     /**
@@ -42,16 +44,20 @@ class DefaultController extends Controller {
         $username = $request->request->get('username');
         $password = $request->request->get('password');
         $investigador = new Userid();
-        $investigador->setNombre("sasa");
-        echo $investigador->getNombre();
-        $user = null; //$em->getRepository('VinvSigproBundle:Userid')->getUser(array('username' => $username, 'password' => $password));
-        if ($user) {
-            $session->set('user', $user);
-        } else {
-            echo "asasasa";
-        }
+
+        $userService = $this->get("user.service");
+        $user = $userService->getUserByCredentials(array('username' => $username, 'password' => $password));
+        $session  = $this->get('session');
+
+// set and get session attributes
         
-        return $this->redirect($this->generateUrl('index', array('name' => "asasa")));
+
+        if ($user) {
+            $session->set('user', $user[0]);
+            return $this->redirect($this->generateUrl('home'));
+        } else {
+            return $this->redirect($this->generateUrl('home'));
+        }
     }
 
 }

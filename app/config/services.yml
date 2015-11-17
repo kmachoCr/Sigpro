@@ -4,6 +4,7 @@ parameters:
 #    parameter_name: value
 
 services:
-    user_service:
-        class: Vinv\SigproBundle\Researcher
+    user.service:
+        class: "%vinv.sigpro.class%"
+        arguments: [@doctrine.orm.entity_manager]
 

@@ -3,24 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/config_dev.yml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/DependencyInjection/VinvSigproExtension.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Default/login.html.twig</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/parameters.yml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/config/services.xml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/AppBundle/Controller/DefaultController.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/DependencyInjection/Configuration.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/services.yml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/VinvSigproBundle.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/routing.yml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/composer.json</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/AppKernel.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/DefaultController.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Entity/UseridRepository.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/parameters.yml.dist</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Entity/Userid.php</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/config.yml</file>
-            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/AppBundle/AppBundle.php</file>
+            <file>file:/C:/Users/Eldomo-info/Proyectos/Sigpro%20UCR/src/AppBundle/Entity/SipUsuarios.php</file>
         </group>
     </open-files>
 </project-private>

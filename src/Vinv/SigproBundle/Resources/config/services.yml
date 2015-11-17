@@ -1,0 +1,7 @@
+
+parameters:
+    vinv.sigpro.class: Vinv\SigproBundle\Repositories\UserRepository
+ 
+services:
+    user.service:
+        class: "%vinv.sigpro.class%"
