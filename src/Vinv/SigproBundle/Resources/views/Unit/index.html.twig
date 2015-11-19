@@ -1,0 +1,36 @@
+{% extends "VinvSigproBundle::layout.html.twig" %}
+
+{% block title %} Nombre {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Investigadores</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "unidad" |upper }}</th>
+                            <th class="text-center">{{ "Área" |upper }}</th>
+                            <th class="text-center">{{ "Director" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for unit in units %}
+                            <tr>
+                                <td><a href="{{ path("researcher_show", {"id": unit["unidad_c"]|trim}) }}">{{ unit["unidad"] }}</a></td>
+                                <td class="text-center">{{ unit["area"]  }}</td>
+                                <td class="text-center">{{ unit["director"]  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+

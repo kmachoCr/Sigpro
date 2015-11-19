@@ -1,7 +1,38 @@
-{% extends "::base.html.twig" %}
+{% extends "VinvSigproBundle::layout.html.twig" %}
 
-{% block title %}VinvSigproBundle:Researcher:index{% endblock %}
+{% block title %} Nombre {% endblock %}
 
-{% block body %}
-<h1>Welcome to the Researcher:index page</h1>
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Investigadores</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Nombre" |upper }}</th>
+                            <th class="text-center">{{ "Identificación" |upper }}</th>
+                            <th class="text-center">{{ "Estado" |upper }}</th>
+                            <th class="text-center">{{ "Correo Electrónico" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for researcher in researchers %}
+                            <tr>
+                                <td><a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])}}</a></td>
+                                <td class="text-center">{{ researcher["cedula"]  }}</td>
+                                <td class="text-center">{{ researcher["estado"]  }}</td>
+                                <td class="text-center">{{ researcher["email"]  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
 {% endblock %}
+
+

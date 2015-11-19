@@ -27,11 +27,10 @@ class UserRepository extends Controller {
         return $results;
     }
     
-    public function getBecaByUser($credentials) {
+    public function getBecasByUser($id) {
         $connection = $this->em->getConnection();
-        $id = $credentials['id'];
         $statement = $connection->prepare(
-                "SELECT p.descrip, e.descrip, year(b.fec_inicio) as fech_inicio, year(b.fec_final) as fech_final, b.descrip FROM sip.dbo.becas b 
+                "SELECT p.descrip as pais, e.descrip as entidad, year(b.fec_inicio) as anio_inicio, year(b.fec_final) as anio_final, b.descrip as descripcion FROM sip.dbo.becas b 
                 inner join sip.dbo.paises p on p.pais = b.pais
                 inner join sip.dbo.entidades e on e.entidad = b.entidad
                 where b.cedula = '$id'");
@@ -42,16 +41,17 @@ class UserRepository extends Controller {
         return $results;
     }
     
-    public function getProjectsByUser($credentials) {
+    public function getProjectsByUser($id) {
         $connection = $this->em->getConnection();
-        $id = $credentials['id'];
         $statement = $connection->prepare(
-                "SELECT DISTINCT codigo_proyecto
-                                ,nombre_proyecto
-                                ,nombre_unidad_base
-                                ,estado_proyecto
-                FROM sip.dbo.Proyectos_Investigadores 
-                where cedula_empleado = '$id'");
+                "SELECT DISTINCT codigo_proyecto as codigo
+                                ,nombre_proyecto as nombre
+                                ,nombre_unidad_base as unidad
+                                ,u.unidad as unidad_c
+                                ,estado_proyecto as estado
+                FROM sip.dbo.Proyectos_Investigadores pri 
+				inner join sip.dbo.unidades u on u.uacademica = pri.codigo_unidad_base
+                where cedula_empleado =  '$id'");
 
         $statement->execute();
 
@@ -63,7 +63,7 @@ class UserRepository extends Controller {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
                 "Select CD.descrip AS distincion,
-					year(fecha) as fecha,
+					year(fecha) as anio,
 					entidades.descrip as entidad, 
 					CA.descrip as ambito ,distinciones.descrip as descripcion 
 					From distinciones, entidades, codigos AS CD, codigos AS CA
@@ -84,10 +84,10 @@ class UserRepository extends Controller {
     public function getEstudiosByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
-                "Select entidades.descrip AS entidad, 
-					cast(year(fec_inicio)as varchar(04)) as fec_inicio, 
-					cast(year(fec_final)as varchar(04)) as fec_final, 
-					disciplinas.descrip as disciplina, codigos.descrip AS titulo 
+                "Select entidades.descrip as entidad, 
+					cast(year(fec_inicio)as varchar(04)) as anio_inicio, 
+					cast(year(fec_final)as varchar(04)) as anio_final, 
+					disciplinas.descrip as disciplina, codigos.descrip as titulo 
 					 From estudios, Disciplinas, entidades, codigos 
 					 where cedula = '$id'
 					 and Disciplinas.Disciplina = estudios.Disciplina 
@@ -128,10 +128,32 @@ class UserRepository extends Controller {
     
     public function getAll() {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT * FROM dbo.userID");
+        $statement = $connection->prepare("
+            select d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and u.Cedula = d.cedula order by apellido1");
         $statement->execute();
         $results = $statement->fetchAll();
         return $results;
+    }
+    
+    public function getInfo($id) {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            select d.nombre, d.apellido1, d.apellido2, d.sexo as genero, un.descrip as unidad, cca.descrip as CA, d.grado_acad as grado, c.descrip as estado, d.cedula as cedula, u.Email as email, d.fec_nacimi as nacimiento, p.descrip as pais_nacimiento, pn.descrip as nacionalidad  From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u, sip.dbo.paises as p, sip.dbo.paises as pn, sip.dbo.unidades as un, sip.dbo.codigos as cca
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and cca.tipo = 3
+                            and cca.codigo = d.estado
+                            and un.unidad = d.unidad_base
+                            and u.Cedula = d.cedula
+                            and p.pais = d.pais_nacim
+                            and pn.pais = d.pais_nacio
+                            and d.cedula = '$id'");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results[0];
     }
 }
 

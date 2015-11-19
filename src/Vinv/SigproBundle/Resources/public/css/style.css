@@ -1,0 +1,747 @@
+.notice{
+    margin-bottom: 10px;
+}
+
+.link_menu{
+    font-size: 1.4em;
+}
+
+.notice img{
+    width: 90%;
+    margin-right: 30px;
+}
+
+#docs_adjuntos li{
+    margin-bottom: 10px;
+}
+
+.title_proposal a:hover{
+    color: #F89049;
+}
+
+.title_proposal a{
+    color: #F89049;
+}
+
+.title_request a:hover{
+    color: #3192B2;
+}
+
+.title_request a{
+    color: #3192B2;
+}
+
+.form-group input, select{
+    margin-bottom: 10px;
+}
+
+#docs_adjuntos li a{
+    color: #3192B2;
+}
+
+#req_pro_profile hr{
+    margin: 7px 0;
+    border-color: #bababa;
+}
+#image_profile{
+    width: 150px; 
+    border: #F89049 6px solid;
+}
+
+#title_profile h2{
+    margin-top: 30px; 
+    margin-bottom: 0px; 
+    color: #72BE44;
+}
+
+#title_profile hr{
+    border: #72BE44 1px solid; 
+    margin-top: 0;
+}
+
+.name_profile {
+    margin-top: 10px;
+}
+
+.name_profile h2{
+    margin-bottom: 0px; 
+}
+
+.name_profile h3{
+    margin-top: 0;
+}
+
+.title_proposal{
+    color: #F89049;
+}
+
+.badge{
+    background-color: #fff;
+    color: #3192B2; 
+}
+
+.title_request{
+    color: #3192B2;
+}
+
+
+.btn-proposal{
+    color: #fff;
+    background-color: #F89049;
+}
+
+.btn-request{
+    color: #fff;
+    background-color: #3192B2;
+}
+
+
+#actividad_reciente{
+    margin-bottom: 50px;
+}
+
+#actividad_reciente hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-color: #bababa;
+}
+
+#actividad_reciente h5{
+    font-size: 1em;
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.peticiones p{
+    margin-top: -15px;
+}
+
+.peticiones label, p{
+    font-size: 0.9em;
+}
+
+.peticiones .actvidades{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.propuestas p{
+    margin-top: -15px;
+}
+
+.no_radius{
+    border-radius: 0px;
+}
+
+.btn_plus{
+    background-color: #3192B2;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.propuestas label, p{
+    font-size: 0.9em;
+}
+
+.propuestas .actvidades{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.en_marcha label, p{
+    margin-bottom: 2px;
+    font-size: 0.9em;
+}
+.en_marcha .actvidades{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.actvidades{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.actvidades img{
+    padding-top: 4px;
+    padding-left: 6px;
+}
+
+.actvidades h4{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.navbar{
+    border: none;
+}   
+
+.main_nav li:hover{
+    background-color: #3E9C00;
+}
+
+.main_nav li a{
+    font-size: 23px;
+}
+
+.cursor_pointer{
+    cursor: pointer;
+}
+
+.help-block{
+    color: #333;
+    font-size: 1em;
+}
+#form_request{
+    background-color: #3192B2;
+}
+
+#form_request form{
+    margin: 10px 17px 10px 17px;
+}
+
+.btn_form, 
+.btn_form:focus{
+    background-color: #333;
+    color: #fff;    
+}
+
+.btn_form:hover{
+    background-color: #000;
+    color: #fff;    
+}
+
+#form_request .title{
+    background-color: transparent; 
+    color: #fff; 
+    font-size: 1.3em;
+    height: 34px; 
+    padding-top: 8px;
+    padding-left: 0px;
+    margin-bottom: 5px;
+}
+
+
+
+.normal{
+    background-color: #fff; 
+    font-size: 17px;
+    color: #333;
+}
+
+.selector{
+    font-family: "Neucha"; 
+    background-color: #E6DDCD;
+    font-size: 17px;
+    color: #333;
+}
+
+#form_project{
+    background-color: #FFCD00;
+}
+
+
+#form_project .title{
+    background-color: transparent; 
+    color: #fff; 
+    font-size: 1.3em;
+    height: 34px; 
+    padding-top: 8px;
+    padding-left: 0px;
+    margin-bottom: 5px;
+}
+
+#form_project form{
+    margin: 10px 17px 10px 17px;
+}
+
+#form_proposal{
+    background-color: #F89049;
+}
+
+
+#form_proposal .title{
+    background-color: transparent; 
+    color: #fff; 
+    font-size: 1.3em;
+    height: 34px; 
+    padding-top: 8px;
+    padding-left: 0px;
+    margin-bottom: 5px;
+}
+
+#form_proposal form{
+    margin: 10px 17px 10px 17px;
+}
+
+
+
+
+#insert_petition{
+    width: 310px;
+    height: 53px;
+    margin: auto;
+    background-image: url(../img/assets/btn_publica-tu-peticion.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: transparent;
+    margin-top: 20px;
+}
+
+
+#insert_proposal{
+    width: 310px;
+    height: 53px;
+    margin: auto;
+    background-image: url(../img/assets/btn_publica-tu-propuesta.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: transparent;
+    margin-top: 20px;
+}
+
+.form-control::-webkit-input-placeholder { color: #333; }
+
+.form-control:-moz-placeholder { /* Firefox 18- */
+    color: #333;  
+}
+
+.form-control::-moz-placeholder {  /* Firefox 19+ */
+    color: #333;  
+}
+
+.form-control:-ms-input-placeholder {  
+    color: #333;  
+}
+.breadcrumb-dark {
+    list-style: none;
+    border-radius: 4px;
+}
+.breadcrumb-dark > li {
+    display: inline-block;
+}
+
+.breadcrumb-dark li a{
+    color: #fff;
+}
+
+.breadcrumb-dark > li + li:before {
+    content: "/\00a0";
+    padding: 0 5px;
+    color: #fff;
+}
+.link-bar > .active {
+    color: #bababa;
+}
+
+.link-bar {
+    padding: 8px 8px;
+    margin-bottom: 0px;
+    list-style: none;
+}
+
+.link-bar > li {
+    display: inline-block;
+}
+
+.link-bar li a{
+    color: #000;
+}
+
+.link-bar > li + li:before {
+    content: "|\00a0";
+    padding: 0 5px;
+    color: #000;
+}
+
+#background_pn  {
+    background-image: url(../img/assets/banner_principal.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#logo_hacetesentir{
+    width: 40%; min-width: 60px; max-width: 130px; 
+}
+
+#fondo_manos{
+    width: 90%; min-width: 320px; margin-left: 10%;
+}
+
+.navbar-nav.nav-justified > li{
+    float:none;
+}
+
+.img-footer{
+    width: 80%;
+    margin-top: 25%;
+    margin: auto;
+}
+
+#footer{
+    padding-bottom: 70px; 
+    margin-top: 100px;      
+}
+
+#img_cierre{
+    position: absolute;
+    bottom: -40px;
+    left: 42%;
+}
+
+#derechos{
+    position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;
+}
+
+#derechos .row{
+    background-color: #72BE44; padding-top: 10px; color: #fff; margin-top: 30px;
+}
+
+#petition_main{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#content_petition_main{
+    background-image: url(../img/assets/banner_peticion.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+    height: 300px; padding: 0 40px;
+}
+
+#btn_hacete_sentir{
+    width: 40%;
+    margin-left: 30%;
+    height: 60px;
+    background-image: url(../img/assets/btn_hacetesentir.png);
+    background-repeat: no-repeat;
+    background-size: 100%;    
+    margin-top: 40%;
+
+}
+
+#proposal_main{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#content_proposal_main{
+    background-image: url(../img/assets/banner_propuesta.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+    height: 300px; padding: 0 40px;
+}
+
+#btn_propone{
+    width: 40%;
+    margin-left: 30%;
+    height: 60px;
+    background-color: transparent;
+    background-image: url(../img/assets/btn_propone.png);
+    background-repeat: no-repeat;
+    background-size: 100%; 
+    margin-top: 40%;
+    /*    bottom: -256px;
+        left: 32%;*/
+}
+
+.bullet_megusta{
+    width: 23px;
+    max-width: 18px;
+}
+
+.peticiones span{
+    font-size: 1em;
+}
+
+
+.peticiones a{
+    color: #000;
+}
+
+.propuestas span{
+    font-size: 1em;
+}
+
+
+.propuestas a{
+    color: #000;
+}
+
+.en_marcha a{
+    color: #000;
+}
+
+.btn_mas{
+    width: 30px;
+    height: 28px;
+    background-color: transparent;
+    background-image: url(../img/assets/btn_mas.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.btn_hacetesentir{
+    width: 200px;
+    height: 45px;
+    background-color: transparent;
+    background-image: url(../img/assets/btn_hacetesentir.png);
+    background-repeat: no-repeat;
+    background-size: 100%; 
+}
+
+.header_petition{
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+
+#flecha{
+    position: absolute;
+    bottom: 0;
+    left: 84px;
+}
+
+#image_user{
+    width: 150px;
+}
+
+#image_user img{
+    width: 100%; border: #fff 6px solid;
+}
+
+.lastpetitions{
+    color: #3192B2;
+}
+
+.title_list{
+    margin-top: 2px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.date_list{
+    color: #3192B2;
+    margin-bottom: 0px;
+}
+
+.user_list{
+    color: #3192B2;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.text_project{
+    color: #FFCD00;
+}
+
+.title_project a{
+    color: #FFCD00;
+}
+
+.title_project a:hover{
+    color: #FFCD00;
+}
+
+.text_list{
+    font-family: 'Open Sans';
+    margin-top: 11px;
+}
+
+body{
+    font-family: 'Neucha';
+    font-size: 1.5em;
+}
+
+#new_petition{
+    background-color: #3192B2; font-size: 1.7em; color: #fff; margin: auto; width: 45%; border-radius: 12px
+}
+
+#new_proposal{
+    background-color: #F89049; font-size: 1.7em; color: #fff; margin: auto; width: 45%; border-radius: 12px
+}
+
+#insert_project{
+    background-color: #FFCD00; font-size: 1.6em; color: #fff; margin: auto; width: 45%; border-radius: 12px; margin-top: 5px;margin-top: 20px; font-family: "Neucha"
+}
+
+.neucha{
+    font-family: "Neucha";
+}
+
+.open-sans{
+    font-family: "Open Sans";
+}
+
+@font-face {
+    font-family: 'Neucha';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Neucha'), url(http://themes.googleusercontent.com/static/fonts/neucha/v5/Z14xx5NkAnXABtaPytVZVA.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+.btn_login_modal{
+    background-color: #43B091;
+    border-color: #3EA083;
+}
+
+.btn_login_modal:hover{
+    background-color: #73CBBF;
+    border-color: #81E2D4;
+}
+
+#main_banner{
+    background-color: #72BE44; padding: 0;
+}
+
+#main_banner h2{
+    margin: 7px 10px 0 5px; color: #fff;
+}
+
+#registrate{
+    background-color: #F36D6A; padding: 0; cursor: pointer;
+}
+
+#registrate p{
+    margin: 8px 7px 3px 7px; color: #fff; font-size: 0.9em;
+}
+
+#localizacion{
+    margin-left: 2px; font-size: 15px;
+}
+
+#localizacion p{
+    margin-top: 0px; margin-bottom: 0px; color: #4f4d4d; margin-left: 1px; font-size: 1em; padding: 0;
+}
+
+#comments hr{
+    border-color: #c1c1c1;
+}
+
+#error_url{
+    margin-top: 10px;
+}
+
+#error_empty_url{
+    margin-top: 10px;
+}
+
+#content_votes{
+    font-size: 1.4em;
+} 
+
+.likes_perfil{
+    position: absolute; top: 2px; left: 15px; padding-top: 0px;
+}
+
+.likes_perfil img{
+    padding-bottom: 3px;
+}
+
+.remove_picturem{
+    position: absolute; top: 5px; right: 46px; font-size: 1.8em; color: #f61743; 
+}
+
+
+#glosary{
+    font-size: 1.5em;
+}
+
+.menu_top img{
+    padding-bottom: 4px;
+}
+
+.section-title{
+    margin-bottom: 50px;
+    border-bottom: #72BE44 2px solid;
+}
+
+.section-title h1{
+    margin-bottom: 0px;
+    font-size: 3em;
+}
+
+.como-funciona{
+    color: #72BE44;
+    border-color: #72BE44; 
+} 
+
+.section_stats{
+    color: #72BE44;
+    border-color: #72BE44; 
+} 
+
+.section_projects{
+    color: #FFCD00;
+    border-color: #FFCD00; 
+} 
+
+.section_petition{
+    color: #3192B2;
+    border-color: #3192B2; 
+} 
+
+.section_proposal{
+    color: #F89049;
+    border-color: #F89049; 
+} 
+
+.section_lamuni{
+    color: #72BE44;
+    border-color: #72BE44; 
+} 
+
+.data_list{
+    color: #777;
+}
+
+#twitter-widget-0{
+    margin-left: 10px;
+}
+
+input, select{
+    font-family: "Open sans"
+}
+
+#howitworks p{
+    font-size: 1.4em;
+    margin-bottom: 17px;
+}
+
+#howitworks li{
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.nav-tabs > li.active > a{
+    padding: 20px 20px 10px 20px;
+    font-size: 1.4em;
+    background-color: #72BE44;
+    color: #fff;
+    border-color: #72BE44;
+}
+
+.nav-tabs > li > a{    
+    padding: 20px 20px 10px 20px;
+    font-size: 1.4em;
+    background-color: #fff;
+    color: #000;
+    border-bottom:  #72BE44 solid 1px;
+}
+
+.nav-tabs {
+    
+    border-bottom: 6px solid #72BE44;
+}
+
+.nav-tabs li:first-child{
+    padding-left: 20px;
+}
