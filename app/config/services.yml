@@ -5,6 +5,12 @@ parameters:
 
 services:
     user.service:
-        class: "%vinv.sigpro.class%"
+        class: "%vinv.sigpro.user.class%"
+        arguments: [@doctrine.orm.entity_manager]
+    project.service:
+        class: "%vinv.sigpro.project.class%"
+        arguments: [@doctrine.orm.entity_manager]
+    unit.service:
+        class: "%vinv.sigpro.unit.class%"
         arguments: [@doctrine.orm.entity_manager]
 

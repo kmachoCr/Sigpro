@@ -16,10 +16,16 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function indexAction() {
-        $session  = $this->get('session');
+        $session = $this->get('session');
         $user = $session->get('user');
+
+        $userService = $this->get("unit.service");
+        $dist = $userService->getProjectsByUnit("115");
+        var_dump($dist);
         return array('name' => $user["Nombre"]);
     }
+
+    
 
     /**
      * @Route("/index/{name}", name="index")
@@ -47,10 +53,10 @@ class DefaultController extends Controller {
 
         $userService = $this->get("user.service");
         $user = $userService->getUserByCredentials(array('username' => $username, 'password' => $password));
-        $session  = $this->get('session');
+        $session = $this->get('session');
 
 // set and get session attributes
-        
+
 
         if ($user) {
             $session->set('user', $user[0]);

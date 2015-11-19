@@ -1,7 +1,13 @@
 
 parameters:
-    vinv.sigpro.class: Vinv\SigproBundle\Repositories\UserRepository
+    vinv.sigpro.user.class: Vinv\SigproBundle\Repositories\UserRepository
+    vinv.sigpro.project.class: Vinv\SigproBundle\Repositories\ProjectRepository
+    vinv.sigpro.unit.class: Vinv\SigproBundle\Repositories\UnitRepository
  
 services:
     user.service:
-        class: "%vinv.sigpro.class%"
+        class: "%vinv.sigpro.user.class%"
+    project.service:
+        class: "%vinv.sigpro.project.class%"    
+    unit.service:
+        class: "%vinv.sigpro.unit.class%"    
