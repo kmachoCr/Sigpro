@@ -1,7 +1,44 @@
-{% extends "::base.html.twig" %}
+{% extends "VinvSigproBundle::layout.html.twig" %}
 
-{% block title %}VinvSigproBundle:Project:index{% endblock %}
+{% block title %} Nombre {% endblock %}
 
-{% block body %}
-<h1>Welcome to the Project:index page</h1>
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Projects</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Descripción" |upper }}</th>
+                            <th class="text-center">{{ "Investigadores" |upper }}</th>
+                            <th class="text-center">{{ "Estado" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                            <tr>
+                                
+                                <td>
+                                    <p>{{ project["codigo"]  }}</p>
+                                    <a href="{{ path("projects_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
+                                {% set foo = loop.index0 %}
+                                <td class="">
+                                    {% for researcher in researchers[foo] %}
+                                        <a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])}}</a><br>
+                                    {% endfor %}
+                                </td>
+                                <td class="text-center">{{ project["estado"]  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
 {% endblock %}
+
+

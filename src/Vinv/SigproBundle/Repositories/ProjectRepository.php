@@ -35,6 +35,55 @@ class ProjectRepository extends Controller {
         return $results;
     }
     
+    public function getAll($page, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo, p.descrip as nombre, c.descrip as estado, u.descrip as unidad From sip.dbo.proyectos p 
+inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
+left join sip.dbo.unidades u on u.unidad = p.unidad
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    public function getCount() {
+        
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            select count(*) as count From sip.dbo.proyectos p 
+                inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
+                left join sip.dbo.unidades u on u.unidad = p.unidad");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        
+        return $results;
+    }
+    
+    function paginate($dql, $pageSize = 10, $currentPage = 1)
+{
+    $paginator = new Paginator($dql);
+ 
+    $paginator
+        ->getQuery()
+        ->setFirstResult($pageSize * ($currentPage - 1)) // set the offset
+        ->setMaxResults($pageSize); // set the limit
+ 
+    return $paginator;
+}
+
     public function getDisciplinasByProject($id) {
         
         $connection = $this->em->getConnection();
@@ -109,7 +158,7 @@ class ProjectRepository extends Controller {
         
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
-                "Select apellido1,apellido2,nombre,codigos.descrip AS PARTICIPA,(rtrim(convert(char,dedicacion.dedicacion)) + ' - ' + dedicacion.descrip) AS TIEMPO, 
+                "Select datos_per.cedula,apellido1,apellido2,nombre,codigos.descrip AS PARTICIPA,(rtrim(convert(char,dedicacion.dedicacion)) + ' - ' + dedicacion.descrip) AS TIEMPO, 
 			 convert(char(10),fec_inicio,103) as fec_inicioF, 
 			 convert(char(10),fec_final,103) as fec_finalF, 
     			monto_ca 

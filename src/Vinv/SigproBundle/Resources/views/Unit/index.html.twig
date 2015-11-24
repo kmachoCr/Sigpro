@@ -18,7 +18,7 @@
                     <tbody>
                         {% for unit in units %}
                             <tr>
-                                <td><a href="{{ path("researcher_show", {"id": unit["unidad_c"]|trim}) }}">{{ unit["unidad"] }}</a></td>
+                                <td><a href="{{ path("unit_show", {"id": unit["unidad_c"]|trim}) }}">{{ unit["unidad"] }}</a></td>
                                 <td class="text-center">{{ unit["area"]  }}</td>
                                 <td class="text-center">{{ unit["director"]  }}</td>
                             </tr>

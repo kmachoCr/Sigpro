@@ -27,6 +27,13 @@ class UnitController extends Controller
      */
     public function showAction($id)
     {
-        return null;
+        $service = $this->get("unit.service");
+        $researchers = $service->getInv($id);
+        $projects = $service->getProjectsByUnit($id); 
+
+        return array(
+            'projects' => $projects,
+            'researchers' => $researchers
+        );
     }
 }
