@@ -41,7 +41,7 @@
                         {% for project in projects %}
                             <tr>
                                 <td>{{ project["codigo"]}}</td>
-                                <td><a href="{{ path("researcher_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
+                                <td><a href="{{ path("project_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
                                 <td class="text-center"><a href="{{ path("unit_show", {"id": project["unidad_c"]|trim}) }}">{{ project["unidad"]|lower|title }}</a></td>
                                 <td class="text-center">{{ project["estado"]  }}</td>
                             </tr>

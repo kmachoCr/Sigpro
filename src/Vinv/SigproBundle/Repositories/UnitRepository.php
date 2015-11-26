@@ -47,19 +47,31 @@ class UnitRepository extends Controller {
         return $results;
     }
 
-    public function getProjectsByUnit($id) {
-
+    
+    
+    public function getProjectsByUnit($id, $page, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            SELECT p.proyecto as codigo_proyecto, p.descrip as nombre, pri.nombre_unidad_base, pri.estado_proyecto as estado FROM sip.dbo.proyectos p 
-                    inner join sip.dbo.Proyectos_Investigadores pri on pri.codigo_unidad_responsable_vi = p.unidad
-                    where p.unidad = '$id'");
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo_proyecto, p.descrip as nombre, c.descrip as estado from sip.dbo.proyectos as p, sip.dbo.codigos c
+                        where c.codigo = p.estado_proy
+                        and c.tipo = 12
+                        and p.unidad =  '$id'
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
 
         $statement->execute();
 
         $results = $statement->fetchAll();
         return $results;
     }
+    
 
     public function getInfoInv2($id) {
 
@@ -79,15 +91,24 @@ class UnitRepository extends Controller {
         return $results;
     }
     
-    public function getInv($id) {
-
+    
+    public function getInv($id, $page, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            select d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY d.apellido1) AS RowIndex, d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
                             where c.tipo = 4
                             and c.codigo = d.estado
                             and u.Cedula = d.cedula
-                            and d.unidad_base = '$id' order by apellido1");
+                            and d.unidad_base = '$id'
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high order by apellido1");
 
         $statement->execute();
 

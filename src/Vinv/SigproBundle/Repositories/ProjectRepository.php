@@ -16,8 +16,8 @@ class ProjectRepository extends Controller {
         
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            select xprouni.unidadc,  unidades.descrip AS UNIDADP, TI.descrip AS TIPOINVES, CR.descrip AS TIPOFINAN,  
-					EP.descrip AS ESTADOPROY, descr_ubi AS UBICA, TP.descrip AS TIPOPROY 
+            select xprouni.unidadc as codigo_unidad, proyectos.descrip as nombre, proyectos.proyecto as codigo_proyecto, unidades.descrip as unidad, TI.descrip AS tipo_invest, CR.descrip as tipo_finan,  
+					EP.descrip as estado, descr_ubi as ubicacion, TP.descrip as tipo_proyecto 
                     From proyectos, xprouni, codigos as TI,codigos as CR,codigos as EP, ubicacion,codigos as TP, unidades  
                     where proyecto = '$id' 
                     and unidades.unidad = xprouni.unidadc  
@@ -32,7 +32,7 @@ class ProjectRepository extends Controller {
         $statement->execute();
 
         $results = $statement->fetchAll();
-        return $results;
+        return $results[0];
     }
     
     public function getAll($page, $items = 20) {
@@ -44,8 +44,8 @@ class ProjectRepository extends Controller {
             SELECT *
                 FROM (SELECT 
                         Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo, p.descrip as nombre, c.descrip as estado, u.descrip as unidad From sip.dbo.proyectos p 
-inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
-left join sip.dbo.unidades u on u.unidad = p.unidad
+                        inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
+                        left join sip.dbo.unidades u on u.unidad = p.unidad
                     ) AS sub
                 WHERE
                     sub.RowIndex > $low
@@ -98,7 +98,7 @@ left join sip.dbo.unidades u on u.unidad = p.unidad
         return $results;
     }
     
-    public function getUnidadCAByProject($id) {
+        public function getUnidadCAByProject($id) {
         
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -110,7 +110,7 @@ left join sip.dbo.unidades u on u.unidad = p.unidad
         $statement->execute();
 
         $results = $statement->fetchAll();
-        return $results;
+        return $results[0];
     }
     
     public function getInformesByProject($id) {

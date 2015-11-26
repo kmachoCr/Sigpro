@@ -28,8 +28,8 @@ class UnitController extends Controller
     public function showAction($id)
     {
         $service = $this->get("unit.service");
-        $researchers = $service->getInv($id);
-        $projects = $service->getProjectsByUnit($id); 
+        $researchers = $service->getInv($id, 1, 20);
+        $projects = $service->getProjectsByUnit($id, 1, 20); 
 
         return array(
             'projects' => $projects,

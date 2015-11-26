@@ -5,32 +5,51 @@
 {% block content %}
     <div class="container">
         <div class="row">
+
             <div class="col-sm-12">
-                <h1>Investigadores</h1>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>{{ "Nombre" |upper }}</th>
-                            <th class="text-center">{{ "Identificación" |upper }}</th>
-                            <th class="text-center">{{ "Estado" |upper }}</th>
-                            <th class="text-center">{{ "Correo Electrónico" |upper }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for researcher in researchers %}
-                            <tr>
-                                <td><a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])}}</a></td>
-                                <td class="text-center">{{ researcher["cedula"]  }}</td>
-                                <td class="text-center">{{ researcher["estado"]  }}</td>
-                                <td class="text-center">{{ researcher["email"]  }}</td>
-                            </tr>
+                <p><span>{{ project["codigo_proyecto"] }}</span> + <span>{{ project["estado"] }}</span> </p>
+                <p>{{ project["nombre"] }}</p>
+                <div class="row">
+                    <div class="col-sm-5 ">
+                        <ul>
+                            <li>Unidad responsable: {{ project["unidad"] }}</li>
+                            <li>Tipo de investigación: {{ project["tipo_invest"] }}</li>
+                            <li>Estado del proyecto: {{ project["estado"] }}</li>
+                            <li>Unidad de Carga académica: {{ uacad["UNIDADA"] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <ul>
+                            <li>Tipo de financiamiento: {{ project["tipo_finan"] }}</li>
+                            <li>Ubicación del proyecto: {{ project["ubicacion"] }}</li>
+                            <li>Tipo de Proyecto: {{ project["tipo_proyecto"] }}</li>
+                            <li>Periodo de vigencia: {{ project["unidad"] }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        Objetivos
+                        {% for objetive in objetives %}
+                            <ul>
+                                <li>{{ objetive ["descrip"]}}</li>
+                            </ul>
                         {% endfor %}
-                    </tbody>
-                </table>
+
+                    </div>
+                    <div class="col-sm-3">
+
+                    </div>
+                    <div class="col-sm-3">
+                        {% for disciplina in disciplinas %}
+                            <ul>
+                                <li>{{ disciplina["descrip"]}}</li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-
-
     </div>
 
 {% endblock %}

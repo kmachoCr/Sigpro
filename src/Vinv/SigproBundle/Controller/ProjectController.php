@@ -33,13 +33,37 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/show/{id}", name="projects_show")
+     * @Route("/projects/{id}", name="project_show")
      * @Template()
      */
     public function showAction($id)
     {
+        $service = $this->get("project.service");
+        $project = $service->getProjectById($id);
+        
+        $objetives = $service->getObjectivesByProject($id);
+        $vigencias = $service->getVigenciasByProject($id);
+        $uacad = $service->getUnidadCAByProject($id); 
+        $informes = $service->getInformesByProject($id);
+        $publicaciones = $service->getPublicacionesByProject($id);
+        $researchers = $service->getInvestigadoresByProject($id);
+        $financiamiento = $service->getFinanciamientoByProject($id);
+        $presupuesto = $service->getPresupuestoByProject($id);
+        $disciplinas = $service->getDisciplinasByProject($id);
+        //var_dump($disciplinas);
         return array(
-                // ...
-            );    }
-
+            'project' => $project,
+            'objetives' => $objetives,
+            'vigencias' => $vigencias,
+            'objetives' => $objetives,
+            'uacad' => $uacad,
+            'informes' => $informes,
+            'publicaciones' => $publicaciones,
+            'researchers' => $researchers,
+            'financiamiento' => $financiamiento,
+            'presupuesto' => $presupuesto,
+            'disciplinas' => $disciplinas
+                
+        );
+    }
 }
