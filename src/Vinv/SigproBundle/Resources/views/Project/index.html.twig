@@ -21,7 +21,7 @@
                                 
                                 <td>
                                     <p>{{ project["codigo"]  }}</p>
-                                    <a href="{{ path("projects_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
+                                    <a href="{{ path("project_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
                                 {% set foo = loop.index0 %}
                                 <td class="">
                                     {% for researcher in researchers[foo] %}

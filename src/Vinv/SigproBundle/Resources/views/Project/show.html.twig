@@ -48,6 +48,212 @@
                         {% endfor %}
                     </div>
                 </div>
+                <h3>Informes</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Número" |upper }}</th>
+                            <th class="text-center">{{ "Tipo" |upper }}</th>
+                            <th class="text-center">{{ "Estado" |upper }}</th>
+                            <th class="text-center">{{ "Fecha de entrega" |upper }}</th>
+                            <th class="text-center">{{ "entregado" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for informe in informes %}
+                            <tr>
+                                <td>{{ informe["numero"]}}</td>
+                                <td class="text-center">{{ informe["informe"] }}</td>
+                                <td class="text-center">{{ informe["descrip"] }}</td>
+                                <td class="text-center">{{ informe["fec_entregaF"]  }}</td>
+                                <td class="text-center">{{ informe["fec_entregadoF"]|default('No ha sido entregado')  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Publicaciones</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Publicación" |upper }}</th>
+                            <th class="text-center">{{ "Tipo" |upper }}</th>
+                            <th class="text-center">{{ "Revista" |upper }}</th>
+                            <th class="text-center">{{ "ámbito" |upper }}</th>
+                            <th class="text-center">{{ "Referencia" |upper }}</th>
+                            <th class="text-center">{{ "Año" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for publicacion in publicaciones %}
+                            <tr>
+                                <td>{{ publicacion["numero"]}}</td>
+                                <td class="text-center">{{ publicacion["informe"] }}</td>
+                                <td class="text-center">{{ publicacion["descrip"] }}</td>
+                                <td class="text-center">{{ publicacion["fec_entregaF"]  }}</td>
+                                <td class="text-center">{{ publicacion["fec_entregadoF"] }}</td>
+                                <td class="text-center">{{ publicacion["fec_entregadoF"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h3>Investigadores</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Nombre" |upper }}</th>
+                            <th class="text-center">{{ "Participación" |upper }}</th>
+                            <th class="text-center">{{ "Dedicación" |upper }}</th>
+                            <th class="text-center">{{ "Fecha de inicio" |upper }}</th>
+                            <th class="text-center">{{ "Fecha de término" |upper }}</th>
+                            <th class="text-center">{{ "MONTO CA" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for researcher in researchers %}
+                            <tr>
+                                <td><a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])}}</a></td>
+                                <td class="text-center">{{ researcher["PARTICIPA"] }}</td>
+                                <td class="text-center">{{ researcher["TIEMPO"] }}</td>
+                                <td class="text-center">{{ researcher["fec_inicioF"]  }}</td>
+                                <td class="text-center">{{ researcher["fec_finalF"] }}</td>
+                                <td class="text-center">{{ researcher["monto_ca"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Vigencias</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Vigencia" |upper }}</th>
+                            <th class="text-center">{{ "Fecha de inicio" |upper }}</th>
+                            <th class="text-center">{{ "Fecha de término" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vigencia in vigencias %}
+                            <tr>
+                                <td class="">{{ vigencia["TVIGENCIA"]  }}</td>
+                                <td class="text-center">{{ vigencia["fec_inicioF"] }}</td>
+                                <td class="text-center">{{ vigencia["fec_finalF"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Financiamiento</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "NOMBRE CONVENIO" |upper }}</th>
+                            <th class="text-center">{{ "Vigencia inicio" |upper }}</th>
+                            <th class="text-center">{{ "Vigencia finalizada" |upper }}</th>
+                            <th class="text-center">{{ "Nombre entidad" |upper }}</th>
+                            <th class="text-center">{{ "Monto" |upper }}</th>
+                            <th class="text-center">{{ "Descripción" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for financiamiento in financiamientos %}
+                            <tr>
+                                <td class="">{{ financiamiento["nombre"]  }}</td>
+                                <td class="text-center">{{ financiamiento["fec_inicioF"] }}</td>
+                                <td class="text-center">{{ financiamiento["fec_finalF"] }}</td>
+                                <td class="">{{ financiamiento["enti"]  }}</td>
+                                <td class="text-center">{{ financiamiento["monto"] }}</td>
+                                <td class="text-center">{{ financiamiento["descripcion"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Presupuesto</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Presupuesto" |upper }}</th>
+                            <th class="text-center">{{ "Partida" |upper }}</th>
+                            <th class="text-center">{{ "Asignado" |upper }}</th>
+                            <th class="text-center">{{ "Ampliaciones" |upper }}</th>
+                            <th class="text-center">{{ "Aumentos" |upper }}</th>
+                            <th class="text-center">{{ "Disminuciones" |upper }}</th>
+                            <th class="text-center">{{ "Subtotal" |upper }}</th>
+                            <th class="text-center">{{ "Egresos" |upper }}</th>
+                            <th class="text-center">{{ "Disponible" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for presupuesto in presupuestos %}
+                            <tr>
+                                <td class="">{{ presupuesto["cuenta_global"]  }}</td>
+                                <td class="text-center">{{ presupuesto["codigo_partida"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_asignado"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_ampliaciones"]  }}</td>
+                                <td class="text-center">{{ presupuesto["monto_aumentos"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_disminuciones"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_subtotal"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_egresos"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_disponible"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "Presupuesto" |upper }}</th>
+                            <th class="text-center">{{ "Asignado" |upper }}</th>
+                            <th class="text-center">{{ "Ampliaciones" |upper }}</th>
+                            <th class="text-center">{{ "Aumentos" |upper }}</th>
+                            <th class="text-center">{{ "Disminuciones" |upper }}</th>
+                            <th class="text-center">{{ "Subtotal" |upper }}</th>
+                            <th class="text-center">{{ "Egresos" |upper }}</th>
+                            <th class="text-center">{{ "Disponible" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for presupuesto in presupuestoTotal %}
+                            <tr>
+                                <td class="">{{ presupuesto["cuenta_global"]  }}</td>
+                                <td class="text-center">{{ presupuesto["monto_asignado"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_ampliaciones"]  }}</td>
+                                <td class="text-center">{{ presupuesto["monto_aumentos"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_disminuciones"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_subtotal"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_egresos"] }}</td>
+                                <td class="text-center">{{ presupuesto["monto_disponible"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Fondo D.I</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ "No Oficina V.I" |upper }}</th>
+                            <th class="text-center">{{ "No oficina. Unidad" |upper }}</th>
+                            <th class="text-center">{{ "No oficina. Rectoría" |upper }}</th>
+                            <th class="text-center">{{ "Monto" |upper }}</th>
+                            <th class="text-center">{{ "% EXONER" |upper }}</th>
+                            <th class="text-center">{{ "FECHA DE INICIO" |upper }}</th>
+                            <th class="text-center">{{ "FECHA FINAL" |upper }}</th>
+                            <th class="text-center">{{ "Cuenta" |upper }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fondo in fondos %}
+                            <tr>
+                                <td class="">{{ fondo["novi"]  }}</td>
+                                <td class="text-center">{{ fondo["nounidad"] }}</td>
+                                <td class="text-center">{{ fondo["norectoria"] }}</td>
+                                <td class="text-center">{{ fondo["monto"]  }}</td>
+                                <td class="text-center">{{ fondo["porcen"] }}</td>
+                                <td class="text-center">{{ fondo["veinicioF"] }}</td>
+                                <td class="text-center">{{ fondo["vefinalF"] }}</td>
+                                <td class="text-center">{{ fondo["fondodesin"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

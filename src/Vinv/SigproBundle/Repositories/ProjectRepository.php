@@ -57,6 +57,29 @@ class ProjectRepository extends Controller {
         return $results;
     }
     
+    public function getByKeyword($page, $keyword, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo, p.descrip as nombre, c.descrip as estado, u.descrip as unidad From sip.dbo.proyectos p 
+                        inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
+                        left join sip.dbo.unidades u on u.unidad = p.unidad
+                        where p.descrip LIKE '%$keyword%'
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
     public function getCount() {
         
         $connection = $this->em->getConnection();
@@ -241,6 +264,24 @@ class ProjectRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
+    
+    function getFondosByProject($id){
+	
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare(
+            "select novi,nounidad,norectoria,monto,porcen,
+				convert(char(10),veinicio,103) as veinicioF,					
+				convert(char(10),vefinal,103) as vefinalF,
+				   cuenta from fondodesin
+				   where proyecto='".$id."'");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+        
+	
+}
     
 }
 

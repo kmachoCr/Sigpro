@@ -41,7 +41,7 @@
                             <tr>
                                 
                                 <td class="text-center">{{ project["codigo_proyecto"]  }}</td>
-                                <td><a href="{{ path("researcher_show", {"id": project["codigo_proyecto"]|trim}) }}">{{ project["nombre"] }}</a></td>
+                                <td><a href="{{ path("project_show", {"id": project["codigo_proyecto"]|trim}) }}">{{ project["nombre"] }}</a></td>
                                 <td class="text-center">{{ project["estado"]  }}</td>
                             </tr>
                         {% endfor %}

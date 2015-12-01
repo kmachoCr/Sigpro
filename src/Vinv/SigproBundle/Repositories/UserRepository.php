@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserRepository extends Controller {
 
-
     protected $em;
 
     public function __construct(\Doctrine\ORM\EntityManager $em) {
@@ -14,8 +13,8 @@ class UserRepository extends Controller {
     }
 
     public function getUserByCredentials($credentials, $type) {
-        
-        $table = $type == "user"? "userID" : "unidad";
+
+        $table = $type == "user" ? "userID" : "unidad";
         $connection = $this->em->getConnection();
         $user = $credentials['username'];
         $password = md5($credentials['password']);
@@ -26,7 +25,7 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getBecasByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -40,7 +39,7 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getProjectsByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -58,7 +57,7 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getDistincionesByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -80,7 +79,7 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getEstudiosByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -101,7 +100,7 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getCapacitacionesByUser($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
@@ -125,19 +124,60 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
-    public function getAll() {
+
+    public function getAll($page, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            select d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY d.apellido1) AS RowIndex, d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
                             where c.tipo = 4
                             and c.codigo = d.estado
-                            and u.Cedula = d.cedula order by apellido1");
+                            and u.Cedula = d.cedula
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
+
         $statement->execute();
+
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
+    public function getByKeyword($page, $keyword, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
+        $whereClause = "";
+        $keywords = split(" ", $keyword);
+        for($i = 0; $i < count($keywords); $i++){
+            $whereClause .= "d.nombre like '%$keywords[$i]%' or d.apellido1 like '%$keywords[$i]%' or d.apellido2 like '%$keywords[$i]%' ";
+            count($keywords) - 1 !== $i ?  $whereClause .= "or " : "";
+        }
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY d.apellido1) AS RowIndex, d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and u.Cedula = d.cedula
+                            and ($whereClause)
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
     public function getInfo($id) {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
@@ -155,6 +195,5 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results[0];
     }
+
 }
-
-

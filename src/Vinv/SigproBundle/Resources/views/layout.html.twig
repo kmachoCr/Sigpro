@@ -11,17 +11,60 @@
 </head>
 <body>
     <header class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <img id="logo" class="" src="{{ asset('bundles/vinvsigpro/image/encabezado-ucr.png') }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="header_sigpro">
+                SIGPRO| Sistema de información y Gestión de Proyectos, Programas y Actividades
+            </div>
+        </div>
+
         <div class="container">
             <div class="row">
-                <h1>HEADER</h1>
+
+                {% if home  is not defined %}
+                    <div class="col-lg-6">
+                        <form action="{{path("search")}}" method="POST" id="search-form">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control ">
+                                <span class="input-group-btn">
+                                    <input type="submit" class="btn btn-warning" style="margin: auto; display: block" value="Buscar">
+                                </span>
+                            </div><!-- /input-group -->
+                            <label class="col-lg-3 text-center">
+                                <input type="radio" name="type" value="project" class="">Proyecto
+                            </label>
+                            <label class="col-lg-4 text-center">
+                                <input type="radio" name="type" value="researcher" class="c">Investigador
+                            </label>
+                            <label class="col-lg-5 text-center">
+                                <input type="radio" name="type" value="unit" class="" checked>Unidad de investigación
+                            </label>
+
+                        </form>
+                    </div>
+                {% endif %}
+
+                <div class="col-lg-6 {% if home is defined %}col-lg-offset-6{% endif %}">
+
+                </div>
             </div>
         </div>
     </header>
 {% block content %}{% endblock %}
 
-<footer class="container">
+<footer class="container-fluid">
     <div class="row">
-        <h1>FOOTER</h1>
+        <div class="top">
+            footer  
+        </div> 
+        <div class="bottom text-center">
+            <p>Creative Commons LicenseTodos los derechos reservados © Universidad de Costa Rica 2014</p> 
+            <p>Algunos derechos reservados Licencia Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Costa Rica</p>  
+        </div>
     </div>
 </footer>
 

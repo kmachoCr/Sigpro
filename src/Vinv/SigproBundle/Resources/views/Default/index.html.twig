@@ -1,1 +1,37 @@
-Hello {{ name }}!
+
+{% extends "VinvSigproBundle::layout.html.twig" %}
+
+{% block title %} Nombre {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                
+                <form action="{{path("search")}}" method="POST" class="index" id="search-form">
+                    <h4 class="text-center">Buscar investigaciones de la UCR desde 1975 hasta la fecha</h4>
+                    <p class="text-center">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea</p>
+                    <div class="">
+                        <input type="text" name="keyword" class="form-control ">
+
+                    </div><!-- /input-group -->
+                    <label class="col-lg-3 text-center">
+                        <input type="radio" name="type" value="project" class="">Proyecto
+                    </label>
+                    <label class="col-lg-4 text-center">
+                        <input type="radio" name="type" value="researcher" class="c">Investigador
+                    </label>
+                    <label class="col-lg-5 text-center">
+                        <input type="radio" name="type" value="unit" class="" checked>Unidad de investigación
+                    </label>
+                    <input type="submit" class="btn btn-warning" style="margin: auto; display: block" value="Buscar">
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+

@@ -13,14 +13,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ResearcherController extends Controller {
 
     /**
-     * @Route("/")
+     * @Route("/page/{page}", name="researchers")
      * @Template()
      */
-    public function indexAction() {
-
+    public function indexAction($page) {
         $service = $this->get("user.service");
-        $researchers = $service->getAll();
-        //var_dump($researchers);
+        $request = $this->get('request');
+        $keyword = $request->query->get('keyword');
+        
+        if(isset($keyword) && $keyword != ""){
+            $researchers = $service->getByKeyword($page, $keyword, 25);
+        }else{
+            $researchers = $service->getAll($page, 25);
+        }
+        
         return array(
             'researchers' => $researchers
         );

@@ -12,15 +12,44 @@ class UnitRepository extends Controller {
         $this->em = $em;
     }
 
-    public function getAll() {
+    public function getAll($page, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-                SELECT u.unidad as unidad_c 
-                ,u.descrip as unidad
-                ,a.descrip as area
-                ,director as director
-            FROM sip.dbo.unidades u
-            inner join sip.dbo.areas a on a.area = u.area");
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY u.descrip) AS RowIndex, u.unidad as unidad_c ,u.descrip as unidad,a.descrip as area,director as director
+                    FROM sip.dbo.unidades u
+                        inner join sip.dbo.areas a on a.area = u.area
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    public function getByKeyword($page, $keyword, $items = 20) {
+        $page--;
+        $low = $page * $items;
+        $high = $low + $items;
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT *
+                FROM (SELECT 
+                        Row_Number() OVER (ORDER BY u.descrip) AS RowIndex, u.unidad as unidad_c ,u.descrip as unidad,a.descrip as area,director as director
+                    FROM sip.dbo.unidades u
+                        inner join sip.dbo.areas a on a.area = u.area
+                        where u.descrip LIKE '%$keyword%'
+                    ) AS sub
+                WHERE
+                    sub.RowIndex > $low
+                    AND sub.RowIndex <= $high");
 
         $statement->execute();
 
