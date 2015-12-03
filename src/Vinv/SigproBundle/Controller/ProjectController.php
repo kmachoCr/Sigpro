@@ -5,6 +5,7 @@ namespace Vinv\SigproBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ProjectController extends Controller {
 
@@ -16,26 +17,45 @@ class ProjectController extends Controller {
         $service = $this->get("project.service");
         $request = $this->get('request');
         $keyword = $request->query->get('keyword');
-        
-        if(isset($keyword) && $keyword != ""){
+
+        $session = new Session();
+        $array = array();
+        $user = $session->get('user');
+        if ($user) {
+            $array['user'] = $user;
+        }
+
+        if (isset($keyword) && $keyword != "") {
             $projects = $service->getByKeyword($page, $keyword, 15);
-        }else{
+        } else {
             $projects = $service->getAll($page, 15);
         }
-        
+
         $researchers = array();
+        $ids = array();
         for ($i = 0; $i < count($projects); $i++) {
             array_push($researchers, $service->getInvestigadoresByProject($projects[$i]["codigo"]));
         }
-
+         
+       
+        for ($i = 0; $i < count($researchers); $i++) {
+            if(!in_array($researchers[$i]["cedula"], $ids)){
+                array_push($ids, $researchers[0]["cedula"]);
+            }else{
+                unset($researchers[$i]);
+            }
+            
+        }
 
         //var_dump($researchers);
         $count = $service->getCount()[0]['count'] / 15;
-        return array(
-            'projects' => $projects,
-            'count' => $count,
-            'researchers' => $researchers
-        );
+
+        $array['page'] = $page;
+        $array['projects'] = $projects;
+        $array['count'] = ceil($count);
+        $array['researchers'] = $researchers;
+
+        return $array;
     }
 
     /**
@@ -45,6 +65,13 @@ class ProjectController extends Controller {
     public function showAction($id) {
         $service = $this->get("project.service");
         $project = $service->getProjectById($id);
+
+        $session = new Session();
+        $array = array();
+        $user = $session->get('user');
+        if ($user) {
+            $array['user'] = $user;
+        }
 
         $objetives = $service->getObjectivesByProject($id);
         $vigencias = $service->getVigenciasByProject($id);
@@ -58,22 +85,23 @@ class ProjectController extends Controller {
         $disciplinas = $service->getDisciplinasByProject($id);
         $fondos = $service->getFondosByProject($id);
 
-        //var_dump($presupuestoTotal);
-        return array(
-            'project' => $project,
-            'objetives' => $objetives,
-            'vigencias' => $vigencias,
-            'objetives' => $objetives,
-            'uacad' => $uacad,
-            'informes' => $informes,
-            'publicaciones' => $publicaciones,
-            'researchers' => $researchers,
-            'financiamientos' => $financiamiento,
-            'presupuestos' => $presupuesto,
-            'disciplinas' => $disciplinas,
-            'fondos' => $fondos,
-            'presupuestoTotal' => $presupuestoTotal
-        );
+
+        $array['project'] = $project;
+        $array['objetives'] = $objetives;
+        $array['vigencias'] = $vigencias;
+        $array['objetives'] = $objetives;
+        $array['uacad'] = $uacad;
+        $array['informes'] = $informes;
+        $array['publicaciones'] = $publicaciones;
+        $array['researchers'] = $researchers;
+        $array['financiamientos'] = $financiamiento;
+        $array['presupuestos'] = $presupuesto;
+        $array['disciplinas'] = $disciplinas;
+        $array['fondos'] = $fondos;
+        $array['presupuestoTotal'] = $presupuestoTotal;
+
+
+        return $array;
     }
 
     function getProjectPresupuestoTotal($presupuesto) {

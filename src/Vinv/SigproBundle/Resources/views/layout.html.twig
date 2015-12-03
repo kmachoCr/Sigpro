@@ -19,9 +19,26 @@
         <div class="row">
             <div class="col-lg-12" id="header_sigpro">
                 SIGPRO| Sistema de información y Gestión de Proyectos, Programas y Actividades
+
+                {% if user is not defined %}
+
+                    <button type="button" class="btn btn-danger pull-right example-class3" data-toggle="popover" data-placement="bottom">Ingresar</button>
+                {% else %}
+                    <a href="{{path("logout")}}" class="pull-right" >Desconectar</a>
+
+                    {% if user["type"] == "researcher" %}
+                        <span class="pull-right">Hola, <a href="{{path("researcher_show", { 'id': user["user"]["Cedula"] })}}">{{ user["user"]["Nombre"]|lower|title }}</a></span>
+                    {% else %}
+                        {% if user["type"] == "unit" %}
+                            <a class="pull-right" href="{{path("unit_show", { 'id': user["user"]["unidad"] })}}">{{ user["user"]["descrip"] }}</a>
+                        {% else %}  
+                            <span class="pull-right" >Hola, {{ user["user"]["name"]|lower|title }}</span>
+                        {% endif %}
+                    {% endif %}   
+
+                {% endif %}
             </div>
         </div>
-
         <div class="container">
             <div class="row">
 
@@ -49,7 +66,6 @@
                 {% endif %}
 
                 <div class="col-lg-6 {% if home is defined %}col-lg-offset-6{% endif %}">
-
                 </div>
             </div>
         </div>
@@ -67,5 +83,36 @@
         </div>
     </div>
 </footer>
+<script>
+    $('[data-toggle="popover"]').popover({
+        title: 'Ingresar',
+        content: '<form method="POST" action="{{ path('loginUser') }}">' +
+                '<input name="username" class="form-control" placeholder="Usuario" type="text">' +
+                '<input name="password" class="form-control" placeholder="Contraseña"  type="password">' +
+                '<div class="radio">' +
+                '<label>' +
+                '<input type="radio" name="type" id="optionsRadios1" value="admin" checked>' +
+                'Administrador' +
+                '</label>' +
+                ' </div>' +
+                '<div class="radio">' +
+                '<label>' +
+                '<input type="radio" name="type" id="optionsRadios1" value="researcher" checked>' +
+                'Investigador' +
+                '</label>' +
+                ' </div>' +
+                '<div class="radio">' +
+                '<label>' +
+                '<input type="radio" name="type" id="optionsRadios1" value="unit" checked>' +
+                'Unidad de investigación' +
+                '</label>' +
+                ' </div>' +
+                '<input type="submit"  class="btn btn-submit" value="Enviar">' +
+                '</form>',
+        html: true,
+        template: '<div class="popover  " role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>'
+    });
+</script>
+</body>
 
 </html>

@@ -34,6 +34,19 @@ class UnitRepository extends Controller {
         return $results;
     }
     
+    public function getCount() {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT count(*) as count 
+                    FROM sip.dbo.unidades u
+                    inner join sip.dbo.areas a on a.area = u.area");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
     public function getByKeyword($page, $keyword, $items = 20) {
         $page--;
         $low = $page * $items;

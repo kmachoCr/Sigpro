@@ -32,29 +32,50 @@ class DefaultController extends Controller {
     }
 
     /**
+     * @Route("/logout", name="logout")
+     * @Template()
+     */
+    public function logoutAction() {
+        $session = $this->get('session');
+
+        if ($session->has('user')) {
+            $session->clear();
+        }
+        return $this->redirect($this->generateUrl('index'));
+    }
+
+    /**
      * @Route("/loginUser", name="loginUser")
      * @Method({"POST"})
      */
     public function loginUserAction() {
         $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-
-
+        
         $username = $request->request->get('username');
         $password = $request->request->get('password');
+        $type = $request->request->get('type');
 
         $userService = $this->get("user.service");
-        $user = $userService->getUserByCredentials(array('username' => $username, 'password' => $password));
+
+        $user = $userService->getUserByCredentials(array('username' => $username, 'password' => $password), $type);
+       
         $session = $this->get('session');
 
-// set and get session attributes
-
-
         if ($user) {
-            $session->set('user', $user[0]);
-            return $this->redirect($this->generateUrl('home'));
+            $session->set('user', array("user" => $user[0], "type" => $type));
+
+            switch ($type) {
+                case "researcher":
+                    return $this->redirect($this->generateUrl('researcher_show', array('id' => $user[0]["Cedula"])));
+
+                case "unit":
+                    return $this->redirect($this->generateUrl('unit_show', array('id' => $user[0]["unidad"])));
+
+                case "admin":
+                    return $this->redirect($this->generateUrl('researchers', array('page' => 1, 'keyword' => "")));
+            }
         } else {
-            return $this->redirect($this->generateUrl('home'));
+            return $this->redirect($this->generateUrl('index'));
         }
     }
 
@@ -63,11 +84,11 @@ class DefaultController extends Controller {
      * @Method({"POST"})
      */
     public function SearchAction() {
-            $request = $this->get('request');
+        $request = $this->get('request');
         $type = $request->request->get('type', 'units');
         $keyword = $request->request->get('keyword', '');
         $url = "";
-        
+
         switch ($type) {
             case "unit":
                 $url = $this->redirect($this->generateUrl('units', array('page' => 1, 'keyword' => $keyword)));
@@ -82,7 +103,7 @@ class DefaultController extends Controller {
                 $url = $this->redirect($this->generateUrl('units', array('page' => 1, 'keyword' => $keyword)));
                 break;
         }
-        return $url; 
+        return $url;
     }
 
 }

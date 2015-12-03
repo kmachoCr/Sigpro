@@ -4,6 +4,7 @@ namespace Vinv\SigproBundle\Repositories;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+
 class UserRepository extends Controller {
 
     protected $em;
@@ -13,13 +14,22 @@ class UserRepository extends Controller {
     }
 
     public function getUserByCredentials($credentials, $type) {
-
-        $table = $type == "user" ? "userID" : "unidad";
+ 
+        switch ($type) {
+            case "researcher":
+                $table = "userID";
+                break;
+            case "unit":
+                $table = "unidades";
+                break;
+            case "admin":
+                $table = "user_admin";
+                break;
+        }
         $connection = $this->em->getConnection();
         $user = $credentials['username'];
         $password = md5($credentials['password']);
         $statement = $connection->prepare("SELECT * FROM dbo.$table where login = '$user' and pass = '$password'");
-
         $statement->execute();
 
         $results = $statement->fetchAll();
@@ -147,6 +157,21 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
+    
+    public function getCount() {
+   
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT count(*) as count From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and u.Cedula = d.cedula");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
 
     public function getByKeyword($page, $keyword, $items = 20) {
         $page--;
@@ -154,9 +179,9 @@ class UserRepository extends Controller {
         $high = $low + $items;
         $whereClause = "";
         $keywords = split(" ", $keyword);
-        for($i = 0; $i < count($keywords); $i++){
+        for ($i = 0; $i < count($keywords); $i++) {
             $whereClause .= "d.nombre like '%$keywords[$i]%' or d.apellido1 like '%$keywords[$i]%' or d.apellido2 like '%$keywords[$i]%' ";
-            count($keywords) - 1 !== $i ?  $whereClause .= "or " : "";
+            count($keywords) - 1 !== $i ? $whereClause .= "or " : "";
         }
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("

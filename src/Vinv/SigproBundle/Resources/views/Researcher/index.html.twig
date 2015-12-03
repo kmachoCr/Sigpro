@@ -7,6 +7,35 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Investigadores</h1>
+                {% if page <= 5 %}
+                    {% set min = 1 %}
+                {% else %}
+                    {% set min = (page - 4)%}
+
+                {% endif %}
+                {% if count <= (page + 4) %}
+                    {% set max = count%}
+                {% else %}
+                    {% set max = (page + 4)%}
+                {% endif %}
+                <nav >
+                    <ul class="pagination pull-center">
+                        <li>
+                            <a href="{{ path("researchers", {"page": page - 1})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% for i in min..max %}
+
+                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("researchers", {"page": i})}} ">{{i}}</a></li>
+                            {% endfor %}
+                        <li>
+                            <a href="{{ path("researchers", {"page": page + 1})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -27,6 +56,24 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <nav >
+                    <ul class="pagination pull-center">
+                        <li>
+                            <a href="{{ path("researchers", {"page": page - 1})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% for i in min..max %}
+
+                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("researchers", {"page": i})}} ">{{i}}</a></li>
+                            {% endfor %}
+                        <li>
+                            <a href="{{ path("researchers", {"page": page + 1})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
 

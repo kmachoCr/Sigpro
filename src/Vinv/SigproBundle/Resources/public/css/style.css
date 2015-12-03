@@ -1,8 +1,125 @@
+table{    
+    border: 1px solid #ddd;
+    font-size: 1em;
+}
+
 body{
+    padding-bottom: 140px;
+}
+table thead{    
+    background-color: #004379;
+    color: #fff;
+}
+
+table tbody{    
+    border: none;
+}
+
+h3{
+    color: #64C4E3;
+    text-transform: uppercase;
+    font-size: 1.3em;
+    margin-top: 35px;
+    margin-bottom: 7px;
+}
+
+#search-form{
+  border: #E7EDF7 solid 1px;
+  padding: 15px;
+  background-color: #E7EDF7;
+  overflow: hidden;
+}
+
+#search-form label{
+  margin: 10px auto;
+}
+
+#search-form input[type="radio"]{
+  margin-right: 4px;
+}
+
+#logo{
+    margin: 10px;
+}
+
+#header_sigpro{
+    background-color: #005EA5;
+    color: #fff;
+    padding: 18px;
+}
+
+#header_sigpro a, #header_sigpro span{
+    color: #fff;
+    margin-right: 10px;
+}
+
+#search-form.index{
+  margin: 10px auto;
+}
+
+#search-form h4{
+  color: #005EA5;
+}
+
+footer{
+    color: #fff;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+   
     
 }
 
-table{    
-    border: 1px solid #ddd;
+footer .top{
+    background-color: #005EA5;
+    padding: 10px;
+}
+
+footer .bottom{
+    background-color: #0A2653;
+    padding: 5px;
     font-size: 0.8em;
+}
+
+footer .bottom p{
+    margin: 3px;
+}
+
+.popover.in{
+    width: 500px;
+    right: 40px;
+    border-radius: 0px;
+    border: none !important;
+    padding: 0px !important;
+}
+
+.popover .popover-content{
+    background-color: #4976B3;
+    color: #fff;
+    padding-top: 15px;
+    
+}
+
+.popover .popover-content input{
+    margin-bottom: 10px;
+    
+}
+
+.popover.bottom > .arrow:after{
+    border-bottom-color: #4976B3;
+}
+.btn-submit{
+    background-color: #F7931E;
+    border: #E6891E solid 1px;
+    color: #fff;
+    margin: auto;
+    display: block;
+}
+
+.btn-submit:hover{
+    background-color: #E6891E;
+    color: #fff;
+}
+
+.pull-center{
 }

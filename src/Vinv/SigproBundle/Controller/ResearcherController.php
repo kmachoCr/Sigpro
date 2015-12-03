@@ -5,6 +5,7 @@ namespace Vinv\SigproBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @Route("/researchers")
@@ -17,19 +18,32 @@ class ResearcherController extends Controller {
      * @Template()
      */
     public function indexAction($page) {
+
+
+        $session = new Session();
+        $array = array();
+        $user = $session->get('user');
+        if ($user) {
+            $array['user'] = $user;
+        }
+
+
         $service = $this->get("user.service");
         $request = $this->get('request');
         $keyword = $request->query->get('keyword');
-        
-        if(isset($keyword) && $keyword != ""){
+
+        if (isset($keyword) && $keyword != "") {
             $researchers = $service->getByKeyword($page, $keyword, 25);
-        }else{
+        } else {
             $researchers = $service->getAll($page, 25);
         }
         
-        return array(
-            'researchers' => $researchers
-        );
+        $count = $service->getCount()[0]['count'] / 25;
+        
+        $array['count'] = ceil($count);
+        $array['page'] = $page;
+        $array['researchers'] = $researchers;
+        return $array;
     }
 
     /**
@@ -38,6 +52,13 @@ class ResearcherController extends Controller {
      */
     public function showAction($id) {
 
+        $session = new Session();
+        $array = array();
+        $user = $session->get('user');
+        if ($user) {
+            $array['user'] = $user;
+        }
+        //var_dump($user);
         $service = $this->get("user.service");
         $researcher = $service->getInfo($id);
         $becas = $service->getBecasByUser($id);
@@ -45,15 +66,15 @@ class ResearcherController extends Controller {
         $distinciones = $service->getDistincionesByUser($id);
         $estudios = $service->getEstudiosByUser($id);
         $capacitaciones = $service->getCapacitacionesByUser($id);
-    
-        return array(
-            'researcher' => $researcher,
-            'becas' => $becas,
-            'distinciones' => $distinciones,
-            'estudios' => $estudios,
-            'capacitaciones' => $capacitaciones,
-            'projects'=> $projects
-        );
+
+        $array['researcher'] = $researcher;
+        $array['becas'] = $becas;
+        $array['distinciones'] = $distinciones;
+        $array['estudios'] = $estudios;
+        $array['capacitaciones'] = $capacitaciones;
+        $array['projects'] = $projects;
+        
+        return $array;
     }
 
 }
