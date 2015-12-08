@@ -1,7 +1,7 @@
 
 {% extends "VinvSigproBundle::layout.html.twig" %}
 
-{% block title %} Nombre {% endblock %}
+{% block title %} Sigpro - Inicio {% endblock %}
 
 {% block content %}
     <div class="container">
@@ -24,7 +24,7 @@
                     <label class="col-lg-5 text-center">
                         <input type="radio" name="type" value="unit" class="" checked>Unidad de investigación
                     </label>
-                    <input type="submit" class="btn btn-warning" style="margin: auto; display: block" value="Buscar">
+                    <button type="submit" class="btn btn-warning btn-search"><img src="{{ asset('bundles/vinvsigpro/image/lupa.png') }}">  Buscar</button>
                 </form>
             </div>
         </div>

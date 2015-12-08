@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <link type="text/css" href="{{ asset('bundles/vinvsigpro/css/bootstrap.css') }}" rel="stylesheet">
         <link type="text/css" href="{{ asset('bundles/vinvsigpro/css/style.css') }}" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="{{ asset('bundles/vinvsigpro/js/bootstrap.min.js') }}"></script>
     {% block stylesheets %}{% endblock %}
@@ -13,28 +14,28 @@
     <header class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <img id="logo" class="" src="{{ asset('bundles/vinvsigpro/image/encabezado-ucr.png') }}">
+                <img id="logo" class="" src="{{ asset('bundles/vinvsigpro/image/universidaddecostarica.png') }}">
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12" id="header_sigpro">
-                SIGPRO| Sistema de información y Gestión de Proyectos, Programas y Actividades
+                <a href="{{ path("index")}} "><img src="{{ asset('bundles/vinvsigpro/image/sigpro.png') }}"></a>
 
                 {% if user is not defined %}
 
-                    <button type="button" class="btn btn-danger pull-right example-class3" data-toggle="popover" data-placement="bottom">Ingresar</button>
+                    <a type="button" class=" pull-right login-link" data-toggle="popover" data-placement="bottom">Ingresar</a>
                 {% else %}
                     <a href="{{path("logout")}}" class="pull-right" >Desconectar</a>
 
                     {% if user["type"] == "researcher" %}
-                        <span class="pull-right">Hola, <a href="{{path("researcher_show", { 'id': user["user"]["Cedula"] })}}">{{ user["user"]["Nombre"]|lower|title }}</a></span>
-                    {% else %}
-                        {% if user["type"] == "unit" %}
-                            <a class="pull-right" href="{{path("unit_show", { 'id': user["user"]["unidad"] })}}">{{ user["user"]["descrip"] }}</a>
+                        <span class="pull-right"><img src="{{ asset('bundles/vinvsigpro/image/user.png') }}">  <a href="{{path("researcher_show", { 'id': user["user"]["Cedula"] })}}">{{ user["user"]["Nombre"]|lower|title }}</a></span>
+                        {% else %}
+                            {% if user["type"] == "unit" %}
+                            <img src="{{ asset('bundles/vinvsigpro/image/user.png') }}"><a class="pull-right" href="{{path("unit_show", { 'id': user["user"]["unidad"] })}}">{{ user["user"]["descrip"] }}</a>
                         {% else %}  
-                            <span class="pull-right" >Hola, {{ user["user"]["name"]|lower|title }}</span>
-                        {% endif %}
-                    {% endif %}   
+                            <span class="pull-right" ><img src="{{ asset('bundles/vinvsigpro/image/user.png') }}">{{ user["user"]["name"]|lower|title }}</span>
+                            {% endif %}
+                        {% endif %}   
 
                 {% endif %}
             </div>
@@ -43,7 +44,7 @@
             <div class="row">
 
                 {% if home  is not defined %}
-                    <div class="col-lg-6">
+                    <div class="col-md-5">
                         <form action="{{path("search")}}" method="POST" id="search-form">
                             <div class="input-group">
                                 <input type="text" name="keyword" class="form-control ">
@@ -51,21 +52,34 @@
                                     <input type="submit" class="btn btn-warning" style="margin: auto; display: block" value="Buscar">
                                 </span>
                             </div><!-- /input-group -->
-                            <label class="col-lg-3 text-center">
+                            <label class="col-md-3 text-center">
                                 <input type="radio" name="type" value="project" class="">Proyecto
                             </label>
-                            <label class="col-lg-4 text-center">
-                                <input type="radio" name="type" value="researcher" class="c">Investigador
+                            <label class="col-md-4 text-center">
+                                <input type="radio" name="type" value="researcher" checked>Investigador
                             </label>
-                            <label class="col-lg-5 text-center">
-                                <input type="radio" name="type" value="unit" class="" checked>Unidad de investigación
+                            <label class="col-md-5 text-center">
+                                <input type="radio" name="type" value="unit" class="" >Unidad de investigación
                             </label>
 
                         </form>
                     </div>
                 {% endif %}
 
-                <div class="col-lg-6 {% if home is defined %}col-lg-offset-6{% endif %}">
+                <div class="col-md-7 {% if home is defined %}col-md-offset-5{% endif %}">
+                    <div class="row">
+                        <div class="col-md-4 link text-center">
+                            <a href="{{path("projects", {"page": 1, "keyword": ""}) }}" class="projects">Lista de proyectos</a>
+                        </div>
+                        <div class="col-md-4 link text-center">
+                            <a href="{{path("researchers", {"page": 1, "keyword": ""})}}" class="researchers">Lista de investigadores</a>
+                        </div>
+                        <div class="col-md-4 link last text-center">
+                            <a href="{{path("units", {"page": 1, "keyword": ""})}}" class="units">Unidades de investigación</a>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,7 +89,16 @@
 <footer class="container-fluid">
     <div class="row">
         <div class="top">
-            footer  
+            <div class="col-md-6">
+                <img src="{{ asset('bundles/vinvsigpro/image/logo-vinv.png') }}" alt=""/>
+            </div>
+            <div class="col-md-6">
+                <p class="title">Contacto</p>
+                <p>Correos electrónicos: girasol.vi@ucr.ac.cr y vice.inves@gmail.com</p>
+                <p>Teléfonos: (506) 2511-1330 / (506) 2511-1350.</p>
+                <p>Fax: (506) 2224-9367</p>
+                <p>Cód.Postal: 11501-2060,Costa Rica</p>
+            </div>
         </div> 
         <div class="bottom text-center">
             <p>Creative Commons LicenseTodos los derechos reservados © Universidad de Costa Rica 2014</p> 
@@ -107,7 +130,7 @@
                 'Unidad de investigación' +
                 '</label>' +
                 ' </div>' +
-                '<input type="submit"  class="btn btn-submit" value="Enviar">' +
+                '<input type="submit"  class="btn btn-warning btn-login" value="INGRESAR">' +
                 '</form>',
         html: true,
         template: '<div class="popover  " role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>'

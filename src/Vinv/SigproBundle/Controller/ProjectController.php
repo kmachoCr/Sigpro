@@ -27,33 +27,40 @@ class ProjectController extends Controller {
 
         if (isset($keyword) && $keyword != "") {
             $projects = $service->getByKeyword($page, $keyword, 15);
+            $count = $service->getCountbyKeyword($keyword)[0]['count'] / 15;
+            $total = $service->getCountByKeyword($keyword)[0]['count'];
         } else {
             $projects = $service->getAll($page, 15);
+            $count = $service->getCount()[0]['count'] / 15;
+            $total = $service->getCount()[0]['count'];
         }
 
         $researchers = array();
+        $researchers_new = array();
         $ids = array();
         for ($i = 0; $i < count($projects); $i++) {
             array_push($researchers, $service->getInvestigadoresByProject($projects[$i]["codigo"]));
         }
-         
-       
+
         for ($i = 0; $i < count($researchers); $i++) {
-            if(!in_array($researchers[$i]["cedula"], $ids)){
-                array_push($ids, $researchers[0]["cedula"]);
-            }else{
-                unset($researchers[$i]);
+            for ($t = 0; $t < count($researchers[$i]); $t++) {
+                if (!in_array($researchers[$i][$t]["cedula"], $ids)) {
+                    array_push($ids, $researchers[$i][$t]["cedula"]);
+                    $researchers_new[$i][$t] = $researchers[$i][$t];
+                }
             }
-            
+            //var_dump($ids);
+            $ids = array();
         }
 
-        //var_dump($researchers);
-        $count = $service->getCount()[0]['count'] / 15;
+
 
         $array['page'] = $page;
         $array['projects'] = $projects;
         $array['count'] = ceil($count);
-        $array['researchers'] = $researchers;
+        $array['keyword'] = $keyword;
+        $array['researchers'] = $researchers_new;
+        $array['total'] = $total;
 
         return $array;
     }
@@ -69,11 +76,12 @@ class ProjectController extends Controller {
         $session = new Session();
         $array = array();
         $user = $session->get('user');
-        if ($user) {
-            $array['user'] = $user;
-        }
 
-        $objetives = $service->getObjectivesByProject($id);
+        $obj = "";
+        $objetives = $service->getGeneralObjectiveByProject($id);
+        for ($i = 0; $i < count($objetives); $i++) {
+            $obj .= $objetives[$i]["descrip"];
+        }
         $vigencias = $service->getVigenciasByProject($id);
         $uacad = $service->getUnidadCAByProject($id);
         $informes = $service->getInformesByProject($id);
@@ -85,9 +93,22 @@ class ProjectController extends Controller {
         $disciplinas = $service->getDisciplinasByProject($id);
         $fondos = $service->getFondosByProject($id);
 
-
+        $array['project_unit'] = false;
+        if ($user) {
+            $array['user'] = $user;
+            if ($user['type'] == "unit") {
+                $serviceU = $this->get("unit.service");
+                $projects = $serviceU->getAllProjectsByUnit($user["user"]["unidad"]);
+                
+                for ($i = 0; $i < count($projects) && $array['project_unit'] == false; $i++) {
+                    if (trim($projects[$i]["codigo_proyecto"]) == trim($project["codigo_proyecto"])) {
+                        $array['project_unit'] = true;
+                    }
+                }
+            }
+        }
         $array['project'] = $project;
-        $array['objetives'] = $objetives;
+        $array['objetive'] = $obj;
         $array['vigencias'] = $vigencias;
         $array['objetives'] = $objetives;
         $array['uacad'] = $uacad;

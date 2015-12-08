@@ -4,7 +4,6 @@ namespace Vinv\SigproBundle\Repositories;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
 class UserRepository extends Controller {
 
     protected $em;
@@ -14,7 +13,7 @@ class UserRepository extends Controller {
     }
 
     public function getUserByCredentials($credentials, $type) {
- 
+
         switch ($type) {
             case "researcher":
                 $table = "userID";
@@ -56,11 +55,10 @@ class UserRepository extends Controller {
                 "SELECT DISTINCT codigo_proyecto as codigo
                                 ,nombre_proyecto as nombre
                                 ,nombre_unidad_base as unidad
-                                ,u.unidad as unidad_c
+				,pri.codigo_unidad_responsable_vi as unidad_c
                                 ,estado_proyecto as estado
                 FROM sip.dbo.Proyectos_Investigadores pri 
-				inner join sip.dbo.unidades u on u.uacademica = pri.codigo_unidad_base
-                where cedula_empleado =  '$id'");
+                where cedula_empleado = '$id'");
 
         $statement->execute();
 
@@ -157,15 +155,37 @@ class UserRepository extends Controller {
         $results = $statement->fetchAll();
         return $results;
     }
-    
+
     public function getCount() {
-   
+
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
             SELECT count(*) as count From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
                             where c.tipo = 4
                             and c.codigo = d.estado
                             and u.Cedula = d.cedula");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getCountByKeyword($keyword) {
+
+        $connection = $this->em->getConnection();
+        $whereClause = "";
+        $keywords = split(" ", $keyword);
+        for ($i = 0; $i < count($keywords); $i++) {
+            $whereClause .= "d.nombre like '%$keywords[$i]%' or d.apellido1 like '%$keywords[$i]%' or d.apellido2 like '%$keywords[$i]%' ";
+            count($keywords) - 1 !== $i ? $whereClause .= "or " : "";
+        }
+        $statement = $connection->prepare("
+            SELECT count(*) as count From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and u.Cedula = d.cedula
+                            and ($whereClause)");
 
         $statement->execute();
 

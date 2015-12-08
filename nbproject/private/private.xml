@@ -4,18 +4,25 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/UnitController.php</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/db.php</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Project/index.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Repositories/ProjectRepository.php</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Researcher/index.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Unit/index.html.twig</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/public/css/style.css</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Unit/show.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/layout.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Default/login.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/web/bundles/vinvsigpro/css/style.css</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/ProjectController.php</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Project/show.html.twig</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Default/index.html.twig</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/ResearcherController.php</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/composer.json</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Controller/DefaultController.php</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/vendor/twig/extensions/lib/Twig/Extensions/Autoloader.php</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Resources/views/Researcher/show.html.twig</file>
+            <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/app/config/config.yml</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Repositories/UnitRepository.php</file>
             <file>file:/C:/Users/Luis/Documents/NetBeansProjects/Sigpro/src/Vinv/SigproBundle/Repositories/UserRepository.php</file>
         </group>

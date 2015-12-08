@@ -95,6 +95,22 @@ class ProjectRepository extends Controller {
         return $results;
     }
     
+    public function getCountbyKeyword($keyword) {
+        
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            select count(*) as count From sip.dbo.proyectos p 
+                inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
+                left join sip.dbo.unidades u on u.unidad = p.unidad
+                where p.descrip LIKE '%$keyword%'");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        
+        return $results;
+    }
+    
     function paginate($dql, $pageSize = 10, $currentPage = 1)
 {
     $paginator = new Paginator($dql);
@@ -221,6 +237,18 @@ class ProjectRepository extends Controller {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare(
                 "select tipo,descrip from objetivos where proyecto='".$id."' order by linea");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    public function getGeneralObjectiveByProject($id) {
+        
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare(
+                "select tipo,descrip from objetivos where proyecto='".$id."' and tipo='G' order by linea");
 
         $statement->execute();
 

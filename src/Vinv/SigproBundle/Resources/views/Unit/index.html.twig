@@ -1,19 +1,23 @@
 {% extends "VinvSigproBundle::layout.html.twig" %}
 
-{% block title %} Nombre {% endblock %}
+{% block title %}  Sigpro - Unidades de Investigación {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <h1>Unidades de Investigación</h1>
+                <p class="type">Resultados de búsqueda</p>
+                <p class="text-info">{{total}} ítems coinciden con "{{ keyword }}"</p>
+
+
                 {% if page <= 5 %}
                     {% set min = 1 %}
                 {% else %}
                     {% set min = (page - 4)%}
 
                 {% endif %}
-                
+
                 {% if count <= (page + 4)%}
                     {% set max = count%}
                 {% else %}
@@ -22,16 +26,16 @@
                 <nav >
                     <ul class="pagination pull-center">
                         <li>
-                            <a href="{{ path("units", {"page": page - 1})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
+                            <a href="{{ path("units", {"page": page - 1, "keyword": keyword})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         {% for i in min..max %}
 
-                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("units", {"page": i})}} ">{{i}}</a></li>
+                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("units", {"page": i, "keyword": keyword})}} ">{{i}}</a></li>
                             {% endfor %}
                         <li>
-                                <a href="{{ path("units", {"page": page + 1})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
+                            <a href="{{ path("units", {"page": page + 1, "keyword": keyword})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -48,7 +52,7 @@
                     <tbody>
                         {% for unit in units %}
                             <tr>
-                                <td><a href="{{ path("unit_show", {"id": unit["unidad_c"]|trim}) }}">{{ unit["unidad"] }}</a></td>
+                                <td><a href="{{ path("unit_show", {"id": unit["unidad_c"]|trim, "p_researcher": 1, "p_project": 1}) }}">{{ unit["unidad"] }}</a></td>
                                 <td class="text-center">{{ unit["area"]  }}</td>
                                 <td class="text-center">{{ unit["director"]  }}</td>
                             </tr>
@@ -58,16 +62,16 @@
                 <nav >
                     <ul class="pagination pull-center">
                         <li>
-                            <a href="{{ path("units", {"page": page - 1})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
+                            <a href="{{ path("units", {"page": page - 1, "keyword": keyword})}}" aria-label="Previous"{% if (page == 1) %} class="disabled"{% endif%}>
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         {% for i in min..max %}
 
-                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("units", {"page": i})}} ">{{i}}</a></li>
+                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("units", {"page": i, "keyword": keyword})}} ">{{i}}</a></li>
                             {% endfor %}
                         <li>
-                            <a href="{{ path("units", {"page": page + 1})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
+                            <a href="{{ path("units", {"page": page + 1, "keyword": keyword})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

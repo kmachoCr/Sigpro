@@ -50,7 +50,7 @@ class DefaultController extends Controller {
      */
     public function loginUserAction() {
         $request = $this->get('request');
-        
+
         $username = $request->request->get('username');
         $password = $request->request->get('password');
         $type = $request->request->get('type');
@@ -58,7 +58,7 @@ class DefaultController extends Controller {
         $userService = $this->get("user.service");
 
         $user = $userService->getUserByCredentials(array('username' => $username, 'password' => $password), $type);
-       
+
         $session = $this->get('session');
 
         if ($user) {
@@ -104,6 +104,36 @@ class DefaultController extends Controller {
                 break;
         }
         return $url;
+    }
+
+    public function login() {
+
+
+        $adServer = "163.178.174.16";
+
+        $adServer = "ldap.ucr.ac.cr";
+
+        $ldap = ldap_connect($adServer);
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $ldaprdn = "uid=" . $_POST['username'] . ",ou=people,o=ucr.ac.cr,o=ucr";
+
+        ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+        echo $ldaprdn;
+
+        $bind = @ldap_bind($ldap, $ldaprdn, $password);
+        echo gettype($bind);
+        if ($bind) {
+            $msg = "Valid email address / password";
+            echo $msg;
+        } else {
+            $msg = "Invalid email address / password";
+            echo $msg;
+            echo ldap_err2str(ldap_errno());
+        }
     }
 
 }

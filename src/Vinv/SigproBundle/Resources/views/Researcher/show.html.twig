@@ -1,29 +1,30 @@
 {% extends "VinvSigproBundle::layout.html.twig" %}
 
-{% block title %} Nombre {% endblock %}
+{% block title %} {{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|title }} {% endblock %}
 
 {% block content %}
     <div class="container">
-        <div class="row">
+        <div class="row profile" id="researcher">
 
             <div class="col-sm-12">
-                <p><span>{{ researcher["cedula"] }}</span> + <span>{{ researcher["estado"] }}</span> </p>
-                <p>{{ researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"] }}</p>
+                <p class="type">Investigador/a</p>
+                <p><span class="id">{{ researcher["cedula"] }}</span>  <span class="state">{{ researcher["estado"]|title }}</span> </p>
+                <p class="name">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|title }}</p>
                 <div class="row">
                     <div class="col-sm-4 ">
-                        <ul>
-                            <li>Fecha de Nacimiento: {{ researcher["nacimiento"]|date("m/d/Y") }}</li>
-                            <li>Nacionalidad: {{ researcher["pais_nacimiento"] }}</li>
-                            <li>País de nacimiento: {{ researcher["pais_nacimiento"] }}</li>
-                            <li>Género: {{ researcher["genero"] }}</li>
-                            <li>Correo electrónico: {{ researcher["email"] }}</li>
+                        <ul >
+                            <li><span>Fecha de Nacimiento:</span> {{ researcher["nacimiento"]|date("m/d/Y") }}</li>
+                            <li><span>Nacionalidad:</span> {{ researcher["pais_nacimiento"] }}</li>
+                            <li><span>País de nacimiento:</span> {{ researcher["pais_nacimiento"] }}</li>
+                            <li><span>Género:</span> {{ researcher["genero"] }}</li>
+                            <li><span>Correo electrónico:</span> {{ researcher["email"] }}</li>
                         </ul>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                         <ul>
-                            <li>Categoría Regimen Académico: {{ researcher["CA"] }}</li>
-                            <li>Grado Académico: {{ researcher["grado"] }}</li>
-                            <li>Unidad Base:: {{ researcher["unidad"] }}</li>
+                            <li><span>Categoría Regimen Académico:</span> {{ researcher["CA"] }}</li>
+                            <li><span>Grado Académico:</span> {{ researcher["grado"] }}</li>
+                            <li><span>Unidad Base: </span> {{ researcher["unidad"] }}</li>
                         </ul>
                     </div>
                 </div>
@@ -60,15 +61,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for distincion in distinciones %}
+
+                        {% if distinciones|length > 0 %}
+                            {% for distincion in distinciones %}
+                                <tr>
+                                    <td>{{ distincion["distincion"]}}</td>
+                                    <td>{{ distincion["anio"] }}</a></td>
+                                    <td class="text-center">{{ distincion["entidad"]|lower|title }}</td>
+                                    <td class="text-center">{{ distincion["ambito"]  }}</td>
+                                    <td class="text-center">{{ distincion["descripcion"]  }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else%}
                             <tr>
-                                <td>{{ distincion["distincion"]}}</td>
-                                <td>{{ distincion["anio"] }}</a></td>
-                                <td class="text-center">{{ distincion["entidad"]|lower|title }}</td>
-                                <td class="text-center">{{ distincion["ambito"]  }}</td>
-                                <td class="text-center">{{ distincion["descripcion"]  }}</td>
+                                <td>No hay datos disponibles</td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                             </tr>
-                        {% endfor %}
+                        {% endif%}
                     </tbody>
                 </table>
                 <h3>BECAS</h3>
@@ -83,71 +95,112 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for beca in becas %}
-                            <tr>
-                                <td>{{ beca["pais"]}}</td>
-                                <td>{{ beca["entidad"] }}</a></td>
-                                <td class="text-center">{{ beca["anio_inicio"] }}</td>
-                                <td class="text-center">{{ beca["anio_final"] }}</td>
-                                <td class="text-center">{{ beca["descripcion"] }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h3>ESTUDIOS</h3>
-                <table class="table table-striped researchers">
-                    <thead>
-                        <tr>
-                            <th>{{ "Universidad" |upper }}</th>
-                            <th class="text-center">{{ "Año de inicio" |upper }}</th>
-                            <th class="text-center">{{ "Año de término" |upper }}</th>
-                            <th class="text-center">{{ "Disciplina" |upper }}</th> 
-                            <th class="text-center">{{ "Título" |upper }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for estudio in estudios %}
-                            <tr>
 
-                                <td>{{ estudio["entidad"] }}</a></td>
-                                <td class="text-center">{{ estudio["anio_inicio"] }}</td>
-                                <td class="text-center">{{ estudio["anio_final"] }}</td>
-                                <td class="text-center">{{ estudio["disciplina"]}}</td>
-                                <td class="text-center">{{ estudio["titulo"] }}</td>
+                        {% if becas|length > 0 %}
+                            {% for beca in becas %}
+                                <tr>
+                                    <td>{{ beca["pais"]}}</td>
+                                    <td>{{ beca["entidad"] }}</a></td>
+                                    <td class="text-center">{{ beca["anio_inicio"] }}</td>
+                                    <td class="text-center">{{ beca["anio_final"] }}</td>
+                                    <td class="text-center">{{ beca["descripcion"] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else%}
+                            <tr>
+                                <td>No hay datos disponibles </td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                             </tr>
-                        {% endfor %}
+                        {% endif%}
                     </tbody>
                 </table>
-                <h3>CAPACITACIONES</h3>
-                <table class="table table-striped researchers">
-                    <thead>
-                        <tr>
-                            <th>{{ "País" |upper }}</th>
-                            <th class="text-center">{{ "Capacitación" |upper }}</th>
-                            <th class="text-center">{{ "Partciación activa" |upper }}</th>
-                            <th class="text-center">{{ "Función" |upper }}</th> 
-                            <th class="text-center">{{ "Año" |upper }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for capacitacion in capacitaciones %}
-                            <tr>    
+                {%if user is defined%}    
+                    {% set flag = false %}
+                    {%if user["type"] != "unit"%}
+                        {%if researcher["cedula"]|trim == user["user"]["Cedula"]|trim%}
+                            {% set flag = true %}
+                        {%endif%}
+                    {%endif%}
+                    
+                    {% if flag == true or user["type"] == "admin" or user_unit == true %}
+                        <h3>ESTUDIOS</h3>
+                        <table class="table table-striped researchers">
+                            <thead>
+                                <tr>
+                                    <th>{{ "Universidad" |upper }}</th>
+                                    <th class="text-center">{{ "Año de inicio" |upper }} </th>
+                                    <th class="text-center">{{ "Año de término" |upper }}</th>
+                                    <th class="text-center">{{ "Disciplina" |upper }}</th> 
+                                    <th class="text-center">{{ "Título" |upper }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                <td>{{ capacitacion["pais"] }}</a></td>
-                                <td class="text-center">{{ capacitacion["capacitacion"] }}</td>
-                                <td class="text-center">{{ capacitacion["partic_activa"] }}</td>
-                                <td class="text-center">{{ capacitacion["funcion"]}}</td>
-                                <td class="text-center">{{ capacitacion["anio"] }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                {% if estudios|length > 0 %}
+                                    {% for estudio in estudios %}
+                                        <tr>
+
+                                            <td>{{ estudio["entidad"] }}</a></td>
+                                            <td class="text-center">{{ estudio["anio_inicio"] }}</td>
+                                            <td class="text-center">{{ estudio["anio_final"] }}</td>
+                                            <td class="text-center">{{ estudio["disciplina"]}}</td>
+                                            <td class="text-center">{{ estudio["titulo"] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else%}
+                                    <tr>
+                                        <td>No hay datos disponibles</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                    </tr>
+                                {% endif%}
+                            </tbody>
+                        </table>
+                        <h3>CAPACITACIONES</h3>
+                        <table class="table table-striped researchers">
+                            <thead>
+                                <tr>
+                                    <th>{{ "País" |upper }}</th>
+                                    <th class="text-center">{{ "Capacitación" |upper }}</th>
+                                    <th class="text-center">{{ "Partciación activa" |upper }}</th>
+                                    <th class="text-center">{{ "Función" |upper }}</th> 
+                                    <th class="text-center">{{ "Año" |upper }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% if capacitaciones|length > 0 %}
+                                    {% for capacitacion in capacitaciones %}
+                                        <tr>    
+
+                                            <td>{{ capacitacion["pais"] }}</a></td>
+                                            <td class="text-center">{{ capacitacion["capacitacion"] }}</td>
+                                            <td class="text-center">{{ capacitacion["partic_activa"] }}</td>
+                                            <td class="text-center">{{ capacitacion["funcion"]}}</td>
+                                            <td class="text-center">{{ capacitacion["anio"] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else%}
+                                    <tr>
+                                        <td>No hay datos disponibles</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                    </tr>
+                                {% endif%}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
-
-
     </div>
-
 {% endblock %}
 
 

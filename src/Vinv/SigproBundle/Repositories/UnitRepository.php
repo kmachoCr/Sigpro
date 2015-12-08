@@ -47,6 +47,20 @@ class UnitRepository extends Controller {
         return $results;
     }
     
+    public function getCountByKeyword($keyword) {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT count(*) as count 
+                    FROM sip.dbo.unidades u
+                    inner join sip.dbo.areas a on a.area = u.area
+                    where u.descrip LIKE '%$keyword%'");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
     public function getByKeyword($page, $keyword, $items = 20) {
         $page--;
         $low = $page * $items;
@@ -74,19 +88,14 @@ class UnitRepository extends Controller {
 
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            SELECT DISTINCT 
-                 codigo_proyecto
-                ,nombre_proyecto
-                ,nombre_unidad_base
-		,codigo_unidad_base
-                ,estado_proyecto
-            FROM sip.dbo.Proyectos_Investigadores 
-            where codigo_unidad_base = '$id'");
+            SELECT u.descrip as name, u.director, u.unidad, a.descrip as area FROM sip.dbo.unidades u inner join
+		sip.dbo.areas a on u.area = a.area
+            where unidad = '$id'");
 
         $statement->execute();
 
         $results = $statement->fetchAll();
-        return $results;
+        return $results[0];
     }
 
     
@@ -151,6 +160,37 @@ class UnitRepository extends Controller {
                 WHERE
                     sub.RowIndex > $low
                     AND sub.RowIndex <= $high order by apellido1");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    public function getAllInv($id) {
+ 
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT d.nombre, d.apellido1, d.apellido2, c.descrip as estado, d.cedula, u.Email as email From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.userID as u
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and u.Cedula = d.cedula
+                            and d.unidad_base = $id");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    public function getAllProjectsByUnit($id) {
+
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            SELECT p.proyecto as codigo_proyecto, p.descrip as nombre, c.descrip as estado from sip.dbo.proyectos as p, sip.dbo.codigos c
+                        where c.codigo = p.estado_proy
+                        and c.tipo = 12
+                        and p.unidad =  '$id'");
 
         $statement->execute();
 

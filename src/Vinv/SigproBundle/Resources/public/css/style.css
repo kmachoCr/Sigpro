@@ -4,7 +4,7 @@ table{
 }
 
 body{
-    padding-bottom: 140px;
+    font-family: "Lato";
 }
 table thead{    
     background-color: #004379;
@@ -24,18 +24,19 @@ h3{
 }
 
 #search-form{
-  border: #E7EDF7 solid 1px;
-  padding: 15px;
-  background-color: #E7EDF7;
-  overflow: hidden;
+    border: #E7EDF7 solid 1px;
+    padding: 15px;
+    background-color: #E7EDF7;
+    overflow: hidden;
 }
 
 #search-form label{
-  margin: 10px auto;
+    margin: 15px auto;
 }
 
 #search-form input[type="radio"]{
-  margin-right: 4px;
+    margin-right: 4px;
+    margin-top: 10px;
 }
 
 #logo{
@@ -53,26 +54,39 @@ h3{
     margin-right: 10px;
 }
 
-#search-form.index{
-  margin: 10px auto;
+#search-form.index {
+    margin: 100px auto;
 }
 
 #search-form h4{
-  color: #005EA5;
+    color: #005EA5;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 footer{
     color: #fff;
-    position: fixed;
-    bottom: 0px;
     width: 100%;
-   
-    
+
+
 }
 
 footer .top{
     background-color: #005EA5;
     padding: 10px;
+    overflow: hidden;
+}
+
+footer .top p{
+    text-align: right;
+    font-size: 0.9em;
+    margin-bottom: 4px;
+}
+
+footer .top p.title{
+    color: #7E9BBC;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 footer .bottom{
@@ -97,12 +111,12 @@ footer .bottom p{
     background-color: #4976B3;
     color: #fff;
     padding-top: 15px;
-    
+
 }
 
 .popover .popover-content input{
     margin-bottom: 10px;
-    
+
 }
 
 .popover.bottom > .arrow:after{
@@ -116,10 +130,218 @@ footer .bottom p{
     display: block;
 }
 
+.link{
+    margin-top: 10px;
+    font-weight: bold;
+    border-right: 1px solid #9d9d9d;
+}
+
+
+.link.last{
+    border: none;
+}
+
+.link .units{
+    color: #FBBA00;
+    padding-left: 20px;
+}
+
+.link .units:before{
+    content: url(../image/icn_unidades.png);
+    top: -7px;
+    left: 8px;
+    position: absolute;
+}
+
+.link .units:hover:before{
+    content: url(../image/icn_unidades-hover.png);
+    top: -6px;
+}
+
+.link .researchers{
+    color: #64C4E3;
+}
+
+.link .researchers:before{
+    content: url(../image/icn_investigadores.png);
+    top: -7px;
+    left: 8px;
+    position: absolute;
+
+}
+
+.link .researchers:hover:before{
+    content: url(../image/icn_investigadores-hover.png);
+    top: -6px;
+}
+
+.link .projects{
+    color: #73C067;
+    margin-top: 10px;
+}
+
+.link .projects:before{
+    content: url(../image/icn_proyectos.png);
+    top: -7px;
+    left: 20px;
+    position: absolute;
+}
+
+.link .projects:hover:before{
+    content: url(../image/icn_proyectos-hover.png);
+    top: -7px;
+    left: 21px;
+}
+
 .btn-submit:hover{
     background-color: #E6891E;
     color: #fff;
 }
 
 .pull-center{
+}
+
+h1{
+    color: #8C9FCC; 
+}
+
+.type{
+    padding: 10px;
+    color: #fff;
+    margin-bottom: 15px;
+    width: fit-content;
+}
+.type{
+    background-color: #8C9FCC;
+}
+.profile#researcher .type{
+    background-color: #64C4E3;
+}
+
+.profile#project .type{
+    background-color: #5DA551;
+}
+
+.profile#unit .type{
+    background-color: #DD9F05;
+}
+
+
+
+.profile .state{
+    font-weight: bold;
+    color: #F7931E;
+    font-size: 0.9em;
+}
+
+.profile .name{
+    color: #005EA5;
+    font-weight: bold;
+    font-size: 1.5em;
+    border-bottom: #9d9d9d solid 1px;
+    margin-bottom: 10px;
+}
+
+.profile .id{
+    color: #BDBDBD;
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+
+.profile ul{
+    list-style: none;
+    padding-left: 0px;
+}
+
+.profile ul li span{
+    color: #7798C6;
+}
+
+th{
+    padding: 12px !important;
+    font-weight: normal !important; 
+}
+
+td{
+    padding: 12px !important;
+    position: relative;
+}
+
+#extra_data{
+    background-color: #F2F2F2;
+    margin-top: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+#extra_data p.title{
+    color: #7798C6;
+}
+
+#extra_data div{
+    border-right: 1px solid #BDBDBD;
+    min-height: 110px;
+}
+
+#extra_data div:last-child{
+    border-right: none;
+}
+
+.login-link{
+    cursor: pointer;
+    text-align: right;
+    text-decoration: none;  
+    text-transform: uppercase;
+}
+
+.login-link:hover{
+    color: #ddd;
+    text-decoration: none; 
+}
+
+.btn-search, .btn-login{
+    margin: auto; 
+    display: block;
+    background-color: #F7931E;
+    text-transform: uppercase;
+    margin-top: 70px;
+}
+
+.btn-search img{
+    width: 20px;
+}
+
+.text-info{
+    color: #3A82B9;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+#tresearchers .btn, #tprojects .btn{
+    color: #fff;
+}
+
+.project_activo{
+    color: #F79A2D;
+}
+
+.project_inactivo{
+    color: #999999;
+}
+
+
+.project_activo:before{
+    content: url(../image/icn_activo.png);
+    position: absolute;
+    left: -9px;
+    top: 13px;
+
+}
+
+.project_inactivo:before{
+    content: url(../image/icn_inactivo.png);
+    position: absolute;
+    left: -9px;
+    top: 13px;
 }

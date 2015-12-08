@@ -34,15 +34,20 @@ class ResearcherController extends Controller {
 
         if (isset($keyword) && $keyword != "") {
             $researchers = $service->getByKeyword($page, $keyword, 25);
+            $count = $service->getCountByKeyword($keyword)[0]['count'] / 25;
+            $total = $service->getCountByKeyword($keyword)[0]['count'];
         } else {
             $researchers = $service->getAll($page, 25);
+            $count = $service->getCount()[0]['count'] / 25;
+            $total = $service->getCount()[0]['count'];
         }
-        
-        $count = $service->getCount()[0]['count'] / 25;
-        
+
+
         $array['count'] = ceil($count);
         $array['page'] = $page;
+        $array['keyword'] = $keyword;
         $array['researchers'] = $researchers;
+        $array['total'] = $total;
         return $array;
     }
 
@@ -55,9 +60,8 @@ class ResearcherController extends Controller {
         $session = new Session();
         $array = array();
         $user = $session->get('user');
-        if ($user) {
-            $array['user'] = $user;
-        }
+
+
         //var_dump($user);
         $service = $this->get("user.service");
         $researcher = $service->getInfo($id);
@@ -67,13 +71,28 @@ class ResearcherController extends Controller {
         $estudios = $service->getEstudiosByUser($id);
         $capacitaciones = $service->getCapacitacionesByUser($id);
 
+        $array['user_unit'] = false;
+        if ($user) {
+            $array['user'] = $user;
+            if ($user['type'] == "unit") {
+                $serviceU = $this->get("unit.service");
+                $researchers = $serviceU->getAllInv($user["user"]["unidad"]);
+                for ($i = 0; $i < count($researchers) && $array['user_unit'] == false; $i++) {
+                    if (trim($researchers[$i]["cedula"]) == trim($researcher["cedula"])) {
+                        $array['user_unit'] = true;
+                    }
+                }
+            }
+        }
+
+
         $array['researcher'] = $researcher;
         $array['becas'] = $becas;
         $array['distinciones'] = $distinciones;
         $array['estudios'] = $estudios;
         $array['capacitaciones'] = $capacitaciones;
         $array['projects'] = $projects;
-        
+
         return $array;
     }
 

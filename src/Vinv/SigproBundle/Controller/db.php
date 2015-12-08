@@ -420,7 +420,7 @@ function getProjInv($userId){
 	return $row;
 }
 
-function getInvPrincipal($userId,$projectId){
+function getInvPrincipal($userId, $projectId){
 	$query = "select * from InvsPrincipales_Actuales where cedula ='".$userId."' and codigo_proyecto = '".$projectId."'";
 	
 	$row = getData($query);
@@ -437,7 +437,7 @@ function updateDatosPer($userId, $email,$telefono,$direccion,$fecha){
 
 function replaceEntities($str)
 {
-	$from = array(' ', '&', 'ñ','Ñ','á','Á','é','É','í','Í','ú','Ú','ó','Ó','®');
+	$from = array(' ', '&', 'ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½','ï¿½');
 	$to = array(' ', '&amp;', '&ntilde;', '&Ntilde;','&aacute;','&Aacute;','&eacute;','&Eacute;','&iacute;','&Iacute;','&uacute;','&Uacute;','&oacute;','&Oacute;','&reg;');
 	
 	return str_replace($from, $to, $str);
