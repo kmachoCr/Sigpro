@@ -7,8 +7,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Investigadores</h1>
-                <p class="type">Resultados de búsqueda</p>
-                <p class="text-info">{{total}} ítems coinciden con "{{ keyword }}"</p>
+                <p class="text-info">Resultados de búsqueda: {{total}} ítems coinciden con "{{ keyword }}"</p>
                 {% if page <= 5 %}
                     {% set min = 1 %}
                 {% else %}
@@ -25,24 +24,7 @@
                         {% set max = (page + 4)%}
                     {% endif %}
                 {% endif %}
-                <nav >
-                    <ul class="pagination pull-center">
-                        <li>
-                            <a href="{{ path("researchers", {"page": page - 1, "keyword": keyword})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% for i in min..max %}
-
-                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("researchers", {"page": i, "keyword": keyword})}} ">{{i}}</a></li>
-                            {% endfor %}
-                        <li>
-                            <a href="{{ path("researchers", {"page": page + 1, "keyword": keyword})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                
                 <table class="table table-striped" id="tresearchers">
                     <thead>
                         <tr>
@@ -66,9 +48,9 @@
                     <tbody>
                         {% for researcher in researchers %}
                             <tr>
-                                <td><a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|title}}</a></td>
+                                <td><a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|title|default('Nombre no definido')}}</a></td>
                                 <td class="text-center">{{ researcher["cedula"]  }}</td>
-                                <td class="tex"><span class="project_{{ researcher["estado"]|lower  }}"> {{ researcher["estado"]|capitalize  }}</td>
+                                <td class="text-center"><span class="state_{{ researcher["estado"]|lower  }}"> {{ researcher["estado"]|capitalize  }}</span></td>
                                 <td class="text-center">{{ researcher["email"]  }}</td>
                             </tr>
                         {% endfor %}

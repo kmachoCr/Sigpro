@@ -8,7 +8,7 @@
 
             <div class="col-sm-12">
                 <p class="type">Investigador/a</p>
-                <p><span class="id">{{ researcher["cedula"] }}</span>  <span class="state">{{ researcher["estado"]|title }}</span> </p>
+                <p><span class="id">{{ researcher["cedula"] }}</span>  <span class="state_{{ researcher["estado"]|lower  }}">{{ researcher["estado"]|title }}</span> </p>
                 <p class="name">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|title }}</p>
                 <div class="row">
                     <div class="col-sm-4 ">
@@ -17,7 +17,7 @@
                             <li><span>Nacionalidad:</span> {{ researcher["pais_nacimiento"] }}</li>
                             <li><span>País de nacimiento:</span> {{ researcher["pais_nacimiento"] }}</li>
                             <li><span>Género:</span> {{ researcher["genero"] }}</li>
-                            <li><span>Correo electrónico:</span> {{ researcher["email"] }}</li>
+                            <li><span>Correo electrónico:</span> {% if researcher["email"] is defined %}{{researcher["email"]}}{%else%}No correo{%endif%}</li>
                         </ul>
                     </div>
                     <div class="col-sm-5">
@@ -29,13 +29,25 @@
                     </div>
                 </div>
                 <h3>Proyectos</h3>
-                <table class="table table-striped researchers">
+                <table class="table table-striped" id="tprojects">
                     <thead>
                         <tr>
                             <th>{{ "Núm. de proyecto" |upper }}</th>
                             <th class="text-center">{{ "Descripción" |upper }}</th>
                             <th class="text-center">{{ "Unidad de Investigación" |upper }}</th>
-                            <th class="text-center">{{ "Estado" |upper }}</th>
+                            <th class="text-center">
+                                <div class="dropdown" id="dropdownMenu1">
+                                    <button class="btn btn-link btn-dropdown dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="">{{ "Estado" |upper }}</span>
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        {% for key, state in states %}
+                                            <li><a data-key="{{key}}">{{state|capitalize}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +56,7 @@
                                 <td>{{ project["codigo"]}}</td>
                                 <td><a href="{{ path("project_show", {"id": project["codigo"]|trim}) }}">{{ project["nombre"] }}</a></td>
                                 <td class="text-center"><a href="{{ path("unit_show", {"id": project["unidad_c"]|trim}) }}">{{ project["unidad"]|lower|title }}</a></td>
-                                <td class="text-center">{{ project["estado"]  }}</td>
+                                <td class="text-center" data-estado="{{ project['cestado']}}"><span class="project_{{ project["estado"]|lower|trim|replace(" ", "_")|split('_', 2)[0]  }}">{{ project["estado"]|capitalize  }}</span></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -108,7 +120,7 @@
                             {% endfor %}
                         {% else%}
                             <tr>
-                                <td>No hay datos disponibles </td>
+                                <td>No hay datos disponibles</td>
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
@@ -116,16 +128,22 @@
                             </tr>
                         {% endif%}
                     </tbody>
+                    
                 </table>
                 {%if user is defined%}    
                     {% set flag = false %}
-                    {%if user["type"] != "unit"%}
-                        {%if researcher["cedula"]|trim == user["user"]["Cedula"]|trim%}
-                            {% set flag = true %}
+                    
+                    {%if user["type"] == "admin"%}
+                        {% set flag = true %}
+                    {%else%}    
+                        {%if user["type"] != "unit"%}
+                            {%if researcher["cedula"]|trim == user["user"]["Cedula"]|trim%}
+                                {% set flag = true %}
+                            {%endif%}
                         {%endif%}
                     {%endif%}
                     
-                    {% if flag == true or user["type"] == "admin" or user_unit == true %}
+                    {% if flag == true or user_unit == "true"%}
                         <h3>ESTUDIOS</h3>
                         <table class="table table-striped researchers">
                             <thead>
@@ -201,6 +219,32 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+
+            $("#dropdownMenu1 li a").click(function () {
+                var filter = $(this).data("key");
+
+                $('#tprojects tbody tr').each(function () {
+                    var cell = $(this).children("td:eq(3)").data("estado");
+                    //alert(cell + " - " + filter);
+                    if (filter === "Todos") {
+                        $(this).removeClass("hidden");
+                    } else {
+                        if (cell === filter) {
+                            $(this).removeClass("hidden");
+                        } else {
+                            $(this).addClass("hidden");
+                        }
+                    }
+
+
+                });
+            });
+
+        });
+
+    </script>
 {% endblock %}
 
 

@@ -69,9 +69,17 @@ class UnitController extends Controller {
         $c_researchers = $service->getAllInv($id);
         $c_projects = $service->getAllProjectsByUnit($id);
 
+        $states = array();
+        
+        for ($i = 0; $i < count($projects); $i++) {
+            if(!in_array($projects[$i]["cestado"], $states)){
+                $states[$projects[$i]["cestado"]] = $projects[$i]["estado"];
+            }
+        }
+        
         $unit = $service->getInfoByUnit($id);
         //  var_dump($unit);
-
+        $array['states'] = $states;
         $array['projects'] = $projects;
         $array['p_researcher'] = $p_researchers;
         $array['p_project'] = $p_projects;

@@ -7,8 +7,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Proyectos</h1>
-                <p class="type">Resultados de búsqueda</p>
-                <p class="text-info">{{total}} ítems coinciden con "{{ keyword }}"</p>
+                <p class="text-info">Resultados de búsqueda: {{total}} ítems coinciden con "{{ keyword }}"</p>
                 {% if page <= 5 %}
                     {% set min = 1 %}
                 {% else %}
@@ -21,44 +20,22 @@
                 {% else %}
                     {% set max = (page + 4)%}
                 {% endif %}
-                <nav >
-                    <ul class="pagination pull-center">
-                        <li>
-                            <a href="{{ path("projects", {"page": page - 1, "keyword": keyword})}}" aria-label="Previous"{% if page == 1 %}class="disabled"{% endif%}>
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% for i in min..max %}
-
-                            <li {% if i == page%}class="active"{% endif%}><a href="{{ path("projects", {"page": i, "keyword": keyword})}} ">{{i}}</a></li>
-                            {% endfor %}
-                        <li>
-                            <a href="{{ path("projects", {"page": page + 1, "keyword": keyword})}}" aria-label="Next" {% if count == max%}class="disabled"{% endif%}>
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
                 <table class="table table-striped" id="tprojects">
                     <thead>
                         <tr>
                             <th style="width: 55%;">{{ "Descripción" |upper }}</th>
                             <th class="text-center">{{ "Investigadores" |upper }}</th>
-                            <th class="text-center">{{ "Estado" |upper }}
+                            <th class="text-center">
                     <div class="dropdown" id="dropdownMenu1">
                         <button class="btn btn-link dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="filter">Todos<span>
+                            <span class="">{{ "Estado" |upper }}</span>
                             <span class="caret"></span>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a>Todos</a></li>
-                            <li><a>Terminado</a></li>
-                            <li><a>Desarrollo</a></li>
-                            <li><a>Vencido(Faltan requisitos para terminarlo)</a></li>
-                            <li><a>Cerrado por incumplimiento</a></li>
-                            <li><a>No ejecutado</a></li>
-                            <li><a>En tramite</a></li>
+                            {% for key, state in states %}
+                                <li><a data-key="{{key}}">{{state|capitalize}}</a></li>
+                            {% endfor %}
                         </ul>
                     </div></th>
                     </tr>
@@ -76,7 +53,7 @@
                                         <a href="{{ path("researcher_show", {"id": researcher["cedula"]|trim}) }}">{{ (researcher["nombre"] ~ researcher["apellido1"] ~ researcher["apellido2"])|lower|title}}</a><br>
                                     {% endfor %}
                                 </td>
-                                <td class="text-center">{{ project["estado"]  }}</td>
+                                <td class="text-center" data-estado="{{ project['cestado']}}"><span class="project_{{ project["estado"]|lower|trim|replace(" ", "_")|split('_', 2)[0]  }}">{{ project["estado"]|capitalize}}</span></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -105,16 +82,15 @@
             $(function () {
 
                 $("#dropdownMenu1 li a").click(function () {
-                    var filter = $(this).text();
+                    var filter = $(this).data("key");
 
-                    $("#dropdownMenu1 span.filter").text(filter);
                     $('#tprojects tbody tr').each(function () {
-                        var cell = $(this).children("td:eq(2)").text();
+                        var cell = $(this).children("td:eq(2)").data("estado");
                         //alert(cell + " - " + filter);   
                         if (filter === "Todos") {
                             $(this).removeClass("hidden");
                         } else {
-                            if (cell.trim().toLowerCase() === filter.toLowerCase().trim()) {
+                            if (cell === filter) {
                                 $(this).removeClass("hidden");
                             } else {
                                 $(this).addClass("hidden");

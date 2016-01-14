@@ -8,7 +8,7 @@
 
             <div class="col-sm-12">
                 <p class="type">Proyecto</p>
-                <p><span class="id">{{ project["codigo_proyecto"] }}</span> <span class="state">{{ project["estado"]|title }}</span> </p>
+                <p><span class="id">{{ project["codigo_proyecto"] }}</span> <span class="project_{{ project["estado"]|lower|trim|replace(" ", "_")|split('_', 2)[0]  }}">{{ project["estado"]|title }}</span> </p>
                 <p class="name">{{ project["nombre"] }}</p>
                 <div class="row">
                     <div class="col-sm-5 ">
@@ -24,7 +24,14 @@
                             <li><span>Tipo de financiamiento:</span> {{ project["tipo_finan"] }}</li>
                             <li><span>Ubicación del proyecto:</span> {{ project["ubicacion"] }}</li>
                             <li><span>Tipo de Proyecto:</span> {{ project["tipo_proyecto"] }}</li>
-                            <li><span>Periodo de vigencia:</span> {{ project["unidad"] }}</li>
+                            <li><span>Periodo de vigencia: </span> 
+                                {% if vigencias|length > 0 %}
+                                  
+                                    {{vigencias[vigencias|length - 1]['fec_inicioF']|split('/')[2]}} - 
+                                    {{vigencias[0]['fec_finalF']|split('/')[2]}}
+                                    
+                                {% endif %}    
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -33,18 +40,40 @@
                         <div id="extra_data"> 
                             <div class="col-sm-6 ">
                                 <p class="title">Objetivos<p>
-                                    {{ objetive|truncate(200)|default('El obejtivo no se puede mostrar')}}
+                                    {{ objetive|default('El obejtivo no se puede mostrar')|truncate(200)}}
+                            </div>
+                            <div class="col-sm-3 ">
+                                <p class="title">Descriptores<p>
+                                {% if descriptores|length > 0 %}
+                                    <ul>
+                                        {% for descriptor in descriptores %}
+                                        
+                                            <li>{{ descriptor["codigo"]}} - {{ descriptor["nombre"]}} </li>
+                                        
+                                    {% endfor %}
+                                    </ul>
+                                {% else%}
+                                    <ul>
+                                        <li>No hay datos disponibles</li>
+                                    </ul>
+                                {% endif%}
                             </div>
                             <div class="col-sm-3">
 
-                            </div>
-                            <div class="col-sm-3">
                                 <p class="title">Disciplinas<p>
-                                    {% for disciplina in disciplinas %}
-                                    <ul>
-                                        <li>{{ disciplina["descrip"]}}</li>
+                                    {% if disciplinas|length > 0 %}
+                                         <ul>
+                                        {% for disciplina in disciplinas %}
+                                       
+                                            <li>{{ disciplina["descrip"]}}</li>
+                                        
+                                    {% endfor %}
                                     </ul>
-                                {% endfor %}
+                                {% else%}
+                                    <ul>
+                                        <li>No hay datos disponibles</li>
+                                    </ul>
+                                {% endif%}
                             </div>
                         </div>
 
@@ -111,6 +140,7 @@
                         {% else%}
                             <tr>
                                 <td>No hay datos disponibles</td>
+                                <td class="text-center"></td>
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
@@ -187,16 +217,20 @@
                 </table>
                 {%if user is defined%}    
                     {% set flag = false %}
-
-                    {%if user["type"] != "unit"%}
-                        {% for researcher in researchers %}
-                            {%if researcher["cedula"]|trim == user["user"]["Cedula"]|trim%}
-                                {% set flag = true %}
-                            {%endif%}
-                        {% endfor %} 
+                    
+                    {%if user["type"] == "admin"%}
+                        {% set flag = true %}
+                    {%else%}  
+                        {%if user["type"] != "unit"%}
+                            {% for researcher in researchers %}
+                                {%if researcher["cedula"]|trim == user["user"]["Cedula"]|trim%}
+                                    {% set flag = true %}
+                                {%endif%}
+                            {% endfor %} 
+                        {%endif%}
                     {%endif%}
-
-                    {% if flag == false %}
+                    
+                    {% if flag or project_unit == "true" %}
 
                         <h3>Financiamiento</h3>
                         <table class="table table-striped">
@@ -237,6 +271,7 @@
                             </tbody>
                         </table>
                         <h3>Presupuesto</h3>
+                        <p class="subtitle">Presupuesto<p>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -282,6 +317,7 @@
                                 {% endif%}
                             </tbody>
                         </table>
+                        <p class="subtitle">Totales<p>
                         <table class="table table-striped">
                             <thead>
                                 <tr>

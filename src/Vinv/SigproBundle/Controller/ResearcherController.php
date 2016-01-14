@@ -65,27 +65,37 @@ class ResearcherController extends Controller {
         //var_dump($user);
         $service = $this->get("user.service");
         $researcher = $service->getInfo($id);
+        $researcher = $researcher != null? $researcher:$service->getInfo2($id);
         $becas = $service->getBecasByUser($id);
         $projects = $service->getProjectsByUser($id);
         $distinciones = $service->getDistincionesByUser($id);
         $estudios = $service->getEstudiosByUser($id);
         $capacitaciones = $service->getCapacitacionesByUser($id);
-
-        $array['user_unit'] = false;
+        
+        
+        $states = array();
+        
+        for ($i = 0; $i < count($projects); $i++) {
+            if(!in_array($projects[$i]["cestado"], $states)){
+                $states[$projects[$i]["cestado"]] = $projects[$i]["estado"];
+            }
+        }
+        
+        $array['user_unit'] = "false";
         if ($user) {
             $array['user'] = $user;
             if ($user['type'] == "unit") {
                 $serviceU = $this->get("unit.service");
                 $researchers = $serviceU->getAllInv($user["user"]["unidad"]);
-                for ($i = 0; $i < count($researchers) && $array['user_unit'] == false; $i++) {
+                for ($i = 0; $i < count($researchers) && $array['user_unit'] == "false"; $i++) {
                     if (trim($researchers[$i]["cedula"]) == trim($researcher["cedula"])) {
-                        $array['user_unit'] = true;
+                        $array['user_unit'] = "true";
                     }
                 }
             }
         }
 
-
+        $array['states'] = $states;
         $array['researcher'] = $researcher;
         $array['becas'] = $becas;
         $array['distinciones'] = $distinciones;

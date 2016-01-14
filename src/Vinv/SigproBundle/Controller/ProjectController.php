@@ -37,7 +37,16 @@ class ProjectController extends Controller {
 
         $researchers = array();
         $researchers_new = array();
+        $states = array();
         $ids = array();
+        
+        for ($i = 0; $i < count($projects); $i++) {
+            if(!in_array($projects[$i]["cestado"], $states)){
+                $states[$projects[$i]["cestado"]] = $projects[$i]["estado"];
+            }
+        }
+        
+        
         for ($i = 0; $i < count($projects); $i++) {
             array_push($researchers, $service->getInvestigadoresByProject($projects[$i]["codigo"]));
         }
@@ -56,6 +65,7 @@ class ProjectController extends Controller {
 
 
         $array['page'] = $page;
+        $array['states'] = $states;
         $array['projects'] = $projects;
         $array['count'] = ceil($count);
         $array['keyword'] = $keyword;
@@ -91,18 +101,20 @@ class ProjectController extends Controller {
         $presupuesto = $service->getPresupuestoByProject($id);
         $presupuestoTotal = self::getProjectPresupuestoTotal($presupuesto);
         $disciplinas = $service->getDisciplinasByProject($id);
+        $descriptores = $service->getDescriptoresByProject($id);
         $fondos = $service->getFondosByProject($id);
 
-        $array['project_unit'] = false;
+        $array['project_unit'] = "false";
         if ($user) {
             $array['user'] = $user;
+            
             if ($user['type'] == "unit") {
                 $serviceU = $this->get("unit.service");
                 $projects = $serviceU->getAllProjectsByUnit($user["user"]["unidad"]);
-                
-                for ($i = 0; $i < count($projects) && $array['project_unit'] == false; $i++) {
+                //var_dump($projects);
+                for ($i = 0; $i < count($projects) && $array['project_unit'] == "false"; $i++) {
                     if (trim($projects[$i]["codigo_proyecto"]) == trim($project["codigo_proyecto"])) {
-                        $array['project_unit'] = true;
+                        $array['project_unit'] = "true";
                     }
                 }
             }
@@ -119,6 +131,7 @@ class ProjectController extends Controller {
         $array['presupuestos'] = $presupuesto;
         $array['disciplinas'] = $disciplinas;
         $array['fondos'] = $fondos;
+        $array['descriptores'] = $descriptores;
         $array['presupuestoTotal'] = $presupuestoTotal;
 
 

@@ -88,7 +88,7 @@ class UnitRepository extends Controller {
 
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            SELECT u.descrip as name, u.director, u.unidad, a.descrip as area FROM sip.dbo.unidades u inner join
+            SELECT u.descrip as name, u.director, u.unidad, a.descrip as area, u.email, u.telefono, u.direccion FROM sip.dbo.unidades u inner join
 		sip.dbo.areas a on u.area = a.area
             where unidad = '$id'");
 
@@ -108,7 +108,7 @@ class UnitRepository extends Controller {
         $statement = $connection->prepare("
             SELECT *
                 FROM (SELECT 
-                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo_proyecto, p.descrip as nombre, c.descrip as estado from sip.dbo.proyectos as p, sip.dbo.codigos c
+                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, c.codigo as cestado, p.proyecto as codigo_proyecto, p.descrip as nombre, c.descrip as estado from sip.dbo.proyectos as p, sip.dbo.codigos c
                         where c.codigo = p.estado_proy
                         and c.tipo = 12
                         and p.unidad =  '$id'

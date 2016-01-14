@@ -55,9 +55,10 @@ class UserRepository extends Controller {
                 "SELECT DISTINCT codigo_proyecto as codigo
                                 ,nombre_proyecto as nombre
                                 ,nombre_unidad_base as unidad
-				,pri.codigo_unidad_responsable_vi as unidad_c
+				,pri.codigo_unidad_responsable_vi as unidad_c                           
                                 ,estado_proyecto as estado
-                FROM sip.dbo.Proyectos_Investigadores pri 
+                                ,c.codigo as cestado
+                FROM sip.dbo.Proyectos_Investigadores pri join sip.dbo.codigos c on pri.estado_proyecto = c.descrip
                 where cedula_empleado = '$id'");
 
         $statement->execute();
@@ -238,7 +239,24 @@ class UserRepository extends Controller {
                             and d.cedula = '$id'");
         $statement->execute();
         $results = $statement->fetchAll();
-        return $results[0];
+        return isset($results[0])?$results[0]:null;
+    }
+    
+    public function getInfo2($id) {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("
+            select d.nombre, d.apellido1, d.apellido2, d.sexo as genero, un.descrip as unidad, cca.descrip as CA, d.grado_acad as grado, c.descrip as estado, d.cedula as cedula, d.fec_nacimi as nacimiento, p.descrip as pais_nacimiento, pn.descrip as nacionalidad  From sip.dbo.datos_per as d, sip.dbo.codigos as c, sip.dbo.paises as p, sip.dbo.paises as pn, sip.dbo.unidades as un, sip.dbo.codigos as cca
+                            where c.tipo = 4
+                            and c.codigo = d.estado
+                            and cca.tipo = 3
+                            and cca.codigo = d.estado
+                            and un.unidad = d.unidad_base
+                            and p.pais = d.pais_nacim
+                            and pn.pais = d.pais_nacio
+                            and d.cedula = '$id'");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return isset($results[0])?$results[0]:null;
     }
 
 }

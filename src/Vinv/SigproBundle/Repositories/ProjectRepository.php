@@ -43,9 +43,9 @@ class ProjectRepository extends Controller {
         $statement = $connection->prepare("
             SELECT *
                 FROM (SELECT 
-                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo, p.descrip as nombre, c.descrip as estado, u.descrip as unidad From sip.dbo.proyectos p 
-                        inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
-                        left join sip.dbo.unidades u on u.unidad = p.unidad
+                        Row_Number() OVER (ORDER BY nombre_proyecto) AS RowIndex, codigo_proyecto as codigo, nombre_proyecto as nombre, estado_proyecto as estado, codigo_estadoproyecto as cestado, u.descrip as unidad
+  FROM DatosGeneralesProyectos p 
+ left join unidades u on u.unidad = p.codigo_unidad_responsable_vi
                     ) AS sub
                 WHERE
                     sub.RowIndex > $low
@@ -65,10 +65,10 @@ class ProjectRepository extends Controller {
         $statement = $connection->prepare("
             SELECT *
                 FROM (SELECT 
-                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, p.proyecto as codigo, p.descrip as nombre, c.descrip as estado, u.descrip as unidad From sip.dbo.proyectos p 
-                        inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
-                        left join sip.dbo.unidades u on u.unidad = p.unidad
-                        where p.descrip LIKE '%$keyword%'
+                        Row_Number() OVER (ORDER BY p.descrip) AS RowIndex, codigo_proyecto as codigo, nombre_proyecto as nombre, estado_proyecto as estado, u.descrip as unidad
+  FROM DatosGeneralesProyectos p 
+ left join unidades u on u.unidad = p.codigo_unidad_responsable_vi
+                        where nombre_proyecto LIKE '%$keyword%'
                     ) AS sub
                 WHERE
                     sub.RowIndex > $low
@@ -84,9 +84,8 @@ class ProjectRepository extends Controller {
         
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("
-            select count(*) as count From sip.dbo.proyectos p 
-                inner join sip.dbo.codigos c on c.codigo = p.estado_proy and c.tipo = 12
-                left join sip.dbo.unidades u on u.unidad = p.unidad");
+            select count(*) as count FROM DatosGeneralesProyectos p 
+                left join sip.dbo.unidades u on u.unidad = p.codigo_unidad_responsable_vi");
 
         $statement->execute();
 
@@ -307,9 +306,25 @@ class ProjectRepository extends Controller {
 
         $results = $statement->fetchAll();
         return $results;
-        
+    }
+    
+    function getDescriptoresByProject($id){
 	
-}
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare(
+            "SELECT d.descriptor as codigo, d.descrip as nombre
+                FROM [sip].[dbo].[xprodes] pd 
+            left join sip.dbo.proyectos p on p.proyecto = pd.proyecto  
+            left join sip.dbo.descriptores d on d.descriptor = pd.descriptor 
+            where p.proyecto = '".$id."'");
+
+        $statement->execute();
+
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    
+    
     
 }
 
